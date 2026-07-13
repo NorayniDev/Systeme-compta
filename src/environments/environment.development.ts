@@ -5,5 +5,5 @@ export const environment = {
   // Mode démo: simule le backend Spring Boot en mémoire (voir
   // core/mocks/mock-api.interceptor.ts). Passer à `false` dès qu'une API
   // réelle est disponible.
-  useMockApi: true,
+  useMockApi: false,
 };
