@@ -1,0 +1,120 @@
+<div class="invoice-form-page">
+  <header class="invoice-form-page__header">
+    <a mat-icon-button routerLink="/invoices" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ (isEditMode() ? 'invoices.edit' : 'invoices.new') | translate }}</h1>
+  </header>
+
+  @if (isLoading()) {
+    <div class="invoice-form-page__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else {
+    <form class="invoice-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="invoice-form__header-fields">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'invoices.fields.client' | translate }}</mat-label>
+          <input
+            matInput
+            [formControl]="clientSearchControl"
+            [matAutocomplete]="clientAuto"
+            required
+          />
+          <mat-autocomplete
+            #clientAuto="matAutocomplete"
+            [displayWith]="displayClient"
+            (optionSelected)="onClientSelected($event.option.value)"
+          >
+            @for (client of clientOptions(); track client.id) {
+              <mat-option [value]="client">{{ client.name }}</mat-option>
+            }
+          </mat-autocomplete>
+          @if (form.controls.clientId.invalid && form.controls.clientId.touched) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'invoices.fields.issueDate' | translate }}</mat-label>
+          <input matInput [matDatepicker]="issuePicker" formControlName="issueDate" required />
+          <mat-datepicker-toggle matSuffix [for]="issuePicker" />
+          <mat-datepicker #issuePicker />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'invoices.fields.dueDate' | translate }}</mat-label>
+          <input matInput [matDatepicker]="duePicker" formControlName="dueDate" required />
+          <mat-datepicker-toggle matSuffix [for]="duePicker" />
+          <mat-datepicker #duePicker />
+        </mat-form-field>
+      </div>
+
+      <h2 class="invoice-form__section-title">{{ 'invoices.fields.lines' | translate }}</h2>
+
+      <div class="invoice-form__lines" formArrayName="lines">
+        @for (line of lines.controls; track $index) {
+          <div class="invoice-form__line" [formGroupName]="$index">
+            <mat-form-field appearance="outline" class="invoice-form__line-description">
+              <mat-label>{{ 'invoices.fields.description' | translate }}</mat-label>
+              <input matInput formControlName="description" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="invoice-form__line-number">
+              <mat-label>{{ 'invoices.fields.quantity' | translate }}</mat-label>
+              <input matInput type="number" min="1" formControlName="quantity" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="invoice-form__line-number">
+              <mat-label>{{ 'invoices.fields.amountExclTax' | translate }}</mat-label>
+              <input matInput type="number" min="0" formControlName="unitPrice" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="invoice-form__line-number">
+              <mat-label>{{ 'invoices.fields.taxRate' | translate }}</mat-label>
+              <input matInput type="number" min="0" max="100" formControlName="taxRate" required />
+            </mat-form-field>
+            <p class="invoice-form__line-total">{{ lineTotal($index) | currencyXof }}</p>
+            <button
+              mat-icon-button
+              type="button"
+              (click)="removeLine($index)"
+              [disabled]="lines.length === 1"
+              [attr.aria-label]="'common.delete' | translate"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+
+      <button mat-stroked-button type="button" (click)="addLine()" class="invoice-form__add-line">
+        <mat-icon>add</mat-icon>
+        {{ 'invoices.fields.lines' | translate }}
+      </button>
+
+      <div class="invoice-form__totals">
+        <div>
+          <span>{{ 'invoices.fields.amountExclTax' | translate }}</span>
+          <strong>{{ totals().amountExclTax | currencyXof }}</strong>
+        </div>
+        <div>
+          <span>{{ 'invoices.fields.taxRate' | translate }}</span>
+          <strong>{{ totals().taxAmount | currencyXof }}</strong>
+        </div>
+        <div class="invoice-form__totals-grand">
+          <span>{{ 'invoices.fields.totalAmount' | translate }}</span>
+          <strong>{{ totals().totalAmount | currencyXof }}</strong>
+        </div>
+      </div>
+
+      <div class="invoice-form__actions">
+        <a mat-button routerLink="/invoices">{{ 'common.cancel' | translate }}</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ 'common.save' | translate }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

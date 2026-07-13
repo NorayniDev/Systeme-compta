@@ -1,0 +1,110 @@
+<div class="dashboard">
+  <header class="dashboard__header">
+    <h1>{{ 'dashboard.title' | translate }}</h1>
+    <p>{{ welcomeMessage() }}</p>
+  </header>
+
+  @if (isLoading()) {
+    <div class="dashboard__loading">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else {
+    <section class="dashboard__kpis">
+      <app-kpi-card
+        [label]="'dashboard.kpi.revenue' | translate"
+        [value]="kpis()?.revenue ?? 0 | currencyXof"
+        icon="payments"
+        accent="primary"
+        [trend]="(kpis()?.revenueTrendPercent ?? 0) >= 0 ? 'up' : 'down'"
+        [trendLabel]="(kpis()?.revenueTrendPercent ?? 0) + '% vs mois précédent'"
+      />
+      <app-kpi-card
+        [label]="'dashboard.kpi.invoices' | translate"
+        [value]="(kpis()?.invoicesCount ?? 0).toString()"
+        icon="receipt_long"
+        accent="success"
+        [trend]="(kpis()?.invoicesTrendPercent ?? 0) >= 0 ? 'up' : 'down'"
+        [trendLabel]="(kpis()?.invoicesTrendPercent ?? 0) + '% vs mois précédent'"
+      />
+      <app-kpi-card
+        [label]="'dashboard.kpi.payments' | translate"
+        [value]="kpis()?.paymentsReceived ?? 0 | currencyXof"
+        icon="point_of_sale"
+        accent="success"
+      />
+      <app-kpi-card
+        [label]="'dashboard.kpi.receivables' | translate"
+        [value]="kpis()?.receivables ?? 0 | currencyXof"
+        icon="hourglass_top"
+        accent="warning"
+      />
+      <app-kpi-card
+        [label]="'dashboard.kpi.payables' | translate"
+        [value]="kpis()?.payables ?? 0 | currencyXof"
+        icon="local_shipping"
+        accent="error"
+      />
+      <app-kpi-card
+        [label]="'dashboard.kpi.activeClients' | translate"
+        [value]="(kpis()?.activeClients ?? 0).toString()"
+        icon="groups"
+        accent="primary"
+      />
+    </section>
+
+    <section class="dashboard__charts">
+      <mat-card class="dashboard__chart-card">
+        <mat-card-header>
+          <mat-card-title>{{ 'dashboard.charts.revenueTrend' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard__chart-container">
+          <canvas
+            baseChart
+            [data]="revenueChartData()"
+            [options]="revenueChartOptions"
+            type="line"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="dashboard__chart-card dashboard__chart-card--small">
+        <mat-card-header>
+          <mat-card-title>{{ 'dashboard.charts.invoiceStatus' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard__chart-container">
+          <canvas
+            baseChart
+            [data]="invoiceStatusChartData()"
+            [options]="invoiceStatusChartOptions"
+            type="doughnut"
+          ></canvas>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <section class="dashboard__activity">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ 'dashboard.recentActivity' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (recentActivity().length === 0) {
+            <app-empty-state icon="history" [title]="'common.noResults' | translate" />
+          } @else {
+            <ul class="dashboard__activity-list">
+              @for (activity of recentActivity(); track activity.id) {
+                <li class="dashboard__activity-item">
+                  <mat-icon aria-hidden="true">{{ activityIcons[activity.type] }}</mat-icon>
+                  <div>
+                    <p class="dashboard__activity-message">{{ activity.message }}</p>
+                    <p class="dashboard__activity-time">{{ activity.createdAt | relativeTime }}</p>
+                  </div>
+                </li>
+              }
+            </ul>
+          }
+        </mat-card-content>
+      </mat-card>
+    </section>
+  }
+</div>

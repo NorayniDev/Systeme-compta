@@ -1,0 +1,75 @@
+<div class="cashbook">
+  <header class="cashbook__header">
+    <div>
+      <h1>{{ 'accounting.cashbook.title' | translate }}</h1>
+      <p>{{ 'accounting.cashbook.subtitle' | translate }}</p>
+    </div>
+    <div>
+      <button mat-stroked-button [matMenuTriggerFor]="exportMenu">
+        <mat-icon>download</mat-icon>
+        {{ 'common.export' | translate }}
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportCsv()">{{ 'common.exportExcel' | translate }}</button>
+        <button mat-menu-item (click)="exportPdf()">{{ 'common.exportPdf' | translate }}</button>
+      </mat-menu>
+    </div>
+  </header>
+
+  <div class="cashbook__table-container">
+    @if (isLoading()) {
+      <div class="cashbook__loading">
+        <mat-spinner diameter="36" />
+      </div>
+    } @else if (rows().length === 0) {
+      <app-empty-state icon="point_of_sale" [title]="'accounting.cashbook.empty' | translate" />
+    } @else {
+      <table mat-table [dataSource]="rows()">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.date' | translate }}</th>
+          <td mat-cell *matCellDef="let row">{{ formatDate(row.date) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="reference">
+          <th mat-header-cell *matHeaderCellDef>{{ 'accounting.fields.reference' | translate }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.reference }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="label">
+          <th mat-header-cell *matHeaderCellDef>{{ 'accounting.fields.label' | translate }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.label }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="debit">
+          <th mat-header-cell *matHeaderCellDef class="cashbook__amount-col">
+            {{ 'accounting.cashbook.cashIn' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="cashbook__amount-col cashbook__amount-col--in">
+            {{ row.debit > 0 ? (row.debit | currencyXof) : '—' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="credit">
+          <th mat-header-cell *matHeaderCellDef class="cashbook__amount-col">
+            {{ 'accounting.cashbook.cashOut' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="cashbook__amount-col cashbook__amount-col--out">
+            {{ row.credit > 0 ? (row.credit | currencyXof) : '—' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="runningBalance">
+          <th mat-header-cell *matHeaderCellDef class="cashbook__amount-col">
+            {{ 'accounting.fields.balance' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="cashbook__amount-col">
+            <strong>{{ row.runningBalance | currencyXof }}</strong>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    }
+  </div>
+</div>

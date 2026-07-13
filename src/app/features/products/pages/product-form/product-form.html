@@ -1,0 +1,83 @@
+<div class="product-form-page">
+  <header class="product-form-page__header">
+    <a mat-icon-button routerLink="/products" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ (isEditMode() ? 'products.edit' : 'products.new') | translate }}</h1>
+  </header>
+
+  @if (isLoading()) {
+    <div class="product-form-page__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else {
+    <form class="product-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'products.fields.name' | translate }}</mat-label>
+        <input matInput formControlName="name" required />
+        @if (form.controls.name.invalid && form.controls.name.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'products.fields.sku' | translate }}</mat-label>
+        <input matInput formControlName="sku" required />
+        @if (form.controls.sku.invalid && form.controls.sku.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'products.fields.category' | translate }}</mat-label>
+        <input matInput formControlName="category" required />
+        @if (form.controls.category.invalid && form.controls.category.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'products.fields.unit' | translate }}</mat-label>
+        <mat-select formControlName="unit" required>
+          @for (unit of units; track unit) {
+            <mat-option [value]="unit">{{ 'products.unit.' + unit | translate }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'products.fields.unitPrice' | translate }}</mat-label>
+        <input matInput type="number" min="0" formControlName="unitPrice" required />
+        @if (form.controls.unitPrice.invalid && form.controls.unitPrice.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'products.fields.taxRate' | translate }}</mat-label>
+        <input matInput type="number" min="0" max="100" formControlName="taxRate" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'products.fields.stockQuantity' | translate }}</mat-label>
+        <input matInput type="number" min="0" formControlName="stockQuantity" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="product-form__full-width">
+        <mat-label>{{ 'products.fields.description' | translate }}</mat-label>
+        <textarea matInput formControlName="description" rows="2"></textarea>
+      </mat-form-field>
+
+      <div class="product-form__actions">
+        <a mat-button routerLink="/products">{{ 'common.cancel' | translate }}</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ 'common.save' | translate }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

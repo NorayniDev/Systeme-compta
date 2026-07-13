@@ -1,0 +1,148 @@
+<div class="quote-list">
+  <header class="quote-list__header">
+    <div>
+      <h1>{{ 'quotes.title' | translate }}</h1>
+      <p>{{ 'quotes.subtitle' | translate }}</p>
+    </div>
+    <div class="quote-list__header-actions">
+      <button mat-stroked-button [matMenuTriggerFor]="exportMenu">
+        <mat-icon>download</mat-icon>
+        {{ 'common.export' | translate }}
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportCsv()">{{ 'common.exportExcel' | translate }}</button>
+        <button mat-menu-item (click)="exportPdf()">{{ 'common.exportPdf' | translate }}</button>
+      </mat-menu>
+      <a
+        mat-flat-button
+        color="primary"
+        routerLink="new"
+        *appHasPermission="[Permission.QUOTE_CREATE]"
+      >
+        <mat-icon>add</mat-icon>
+        {{ 'quotes.new' | translate }}
+      </a>
+    </div>
+  </header>
+
+  <mat-form-field appearance="outline" class="quote-list__search">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input matInput [formControl]="searchControl" />
+    <mat-icon matPrefix aria-hidden="true">search</mat-icon>
+  </mat-form-field>
+
+  <div class="quote-list__table-container">
+    @if (isLoading()) {
+      <div class="quote-list__loading">
+        <mat-spinner diameter="36" />
+      </div>
+    } @else if (quotes().length === 0) {
+      <app-empty-state
+        icon="request_quote"
+        [title]="'quotes.empty' | translate"
+        [message]="'quotes.emptyMessage' | translate"
+      />
+    } @else {
+      <table mat-table [dataSource]="quotes()" matSort (matSortChange)="onSortChange($event)">
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'quotes.fields.number' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let quote">{{ quote.number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="clientName">
+          <th mat-header-cell *matHeaderCellDef>{{ 'quotes.fields.client' | translate }}</th>
+          <td mat-cell *matCellDef="let quote">{{ quote.clientName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="issueDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'quotes.fields.issueDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let quote">{{ formatDate(quote.issueDate) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="validUntil">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'quotes.fields.validUntil' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let quote">{{ formatDate(quote.validUntil) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalAmount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'quotes.fields.totalAmount' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let quote">{{ quote.totalAmount | currencyXof }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.status' | translate }}</th>
+          <td mat-cell *matCellDef="let quote">
+            <mat-chip-set>
+              <mat-chip [class]="'quote-list__chip--' + statusAccentClass(quote.status)">
+                {{ statusTranslationKey(quote.status) | translate }}
+              </mat-chip>
+            </mat-chip-set>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.actions' | translate }}</th>
+          <td mat-cell *matCellDef="let quote">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="rowMenu"
+              [attr.aria-label]="'common.actions' | translate"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #rowMenu="matMenu">
+              <a mat-menu-item [routerLink]="[quote.id]">
+                <mat-icon>visibility</mat-icon>
+                <span>{{ 'quotes.detail' | translate }}</span>
+              </a>
+              <a
+                mat-menu-item
+                [routerLink]="[quote.id, 'edit']"
+                *appHasPermission="[Permission.QUOTE_UPDATE]"
+              >
+                <mat-icon>edit</mat-icon>
+                <span>{{ 'common.edit' | translate }}</span>
+              </a>
+              @if (canConvert(quote.status)) {
+                <button
+                  mat-menu-item
+                  (click)="convertToInvoice(quote)"
+                  *appHasPermission="[Permission.INVOICE_CREATE]"
+                >
+                  <mat-icon>sync_alt</mat-icon>
+                  <span>{{ 'quotes.actions.convert' | translate }}</span>
+                </button>
+              }
+              <button
+                mat-menu-item
+                (click)="confirmDelete(quote)"
+                *appHasPermission="[Permission.QUOTE_DELETE]"
+              >
+                <mat-icon>delete</mat-icon>
+                <span>{{ 'common.delete' | translate }}</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [length]="totalElements()"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageSize]="pageSizeOptions[0]"
+        (page)="onPageChange($event)"
+      />
+    }
+  </div>
+</div>

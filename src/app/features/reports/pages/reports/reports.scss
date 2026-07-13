@@ -1,0 +1,53 @@
+.reports {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &__header {
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  &__tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 0;
+
+    table {
+      width: 100%;
+      background: var(--mat-sys-surface);
+      border-radius: 12px;
+      border: 1px solid var(--mat-sys-outline-variant);
+    }
+  }
+
+  &__tab-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+  }
+
+  &__amount-col {
+    text-align: right;
+  }
+
+  &__overdue {
+    color: var(--mat-sys-error);
+    font-weight: 600;
+  }
+}

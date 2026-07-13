@@ -1,0 +1,9 @@
+<div class="error-page">
+  <mat-icon class="error-page__icon" [attr.aria-hidden]="true">{{ icon() }}</mat-icon>
+  <p class="error-page__code">{{ code() }}</p>
+  <h1 class="error-page__title">{{ titleKey() | translate }}</h1>
+  <p class="error-page__message">{{ messageKey() | translate }}</p>
+  <a mat-flat-button color="primary" routerLink="/dashboard">{{
+    'errors.backToDashboard' | translate
+  }}</a>
+</div>

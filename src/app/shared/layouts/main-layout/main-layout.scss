@@ -1,0 +1,153 @@
+.layout {
+  height: 100dvh;
+
+  &__sidenav {
+    width: 272px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface);
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1rem;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--mat-sys-primary);
+  }
+
+  &__nav {
+    overflow-y: auto;
+    padding-bottom: 1rem;
+  }
+
+  &__nav-section-title {
+    margin: 0.75rem 1rem 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__nav-item--active {
+    background-color: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+    border-radius: 8px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--mat-sys-surface);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__demo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background-color: #fff4e5;
+    color: #b26a00;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+
+    mat-icon {
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+    }
+  }
+
+  &__progress {
+    height: 2px;
+  }
+
+  &__user-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  &__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  &__username {
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__main {
+    flex: 1 1 auto;
+    padding: 1.5rem;
+    background-color: var(--mat-sys-surface-container-lowest);
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 960px) {
+  .layout__sidenav {
+    width: 240px;
+  }
+
+  .layout__username {
+    display: none;
+  }
+}
+
+// L'export PDF (bouton "Exporter en PDF" de chaque liste) declenche un simple
+// window.print() sur la page courante : sans ces regles, l'impression inclut
+// le sidenav et la toolbar du tableau de bord. mat-sidenav-content positionne
+// son margin-left en style inline (anime par le CDK) : il faut !important pour
+// le surcharger ici.
+@media print {
+  .layout__sidenav,
+  .layout__toolbar,
+  .layout__progress {
+    display: none !important;
+  }
+
+  .layout,
+  .layout__content,
+  .mat-drawer-container,
+  .mat-drawer-content {
+    height: auto !important;
+    overflow: visible !important;
+    margin-left: 0 !important;
+  }
+
+  .layout__main {
+    padding: 0;
+    overflow: visible !important;
+    background-color: transparent !important;
+  }
+}

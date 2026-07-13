@@ -1,0 +1,78 @@
+<div class="service-form-page">
+  <header class="service-form-page__header">
+    <a mat-icon-button routerLink="/services" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ (isEditMode() ? 'services.edit' : 'services.new') | translate }}</h1>
+  </header>
+
+  @if (isLoading()) {
+    <div class="service-form-page__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else {
+    <form class="service-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'services.fields.name' | translate }}</mat-label>
+        <input matInput formControlName="name" required />
+        @if (form.controls.name.invalid && form.controls.name.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'services.fields.code' | translate }}</mat-label>
+        <input matInput formControlName="code" required />
+        @if (form.controls.code.invalid && form.controls.code.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'services.fields.category' | translate }}</mat-label>
+        <input matInput formControlName="category" required />
+        @if (form.controls.category.invalid && form.controls.category.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'services.fields.unit' | translate }}</mat-label>
+        <mat-select formControlName="unit" required>
+          @for (unit of units; track unit) {
+            <mat-option [value]="unit">{{ 'services.unit.' + unit | translate }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'services.fields.unitPrice' | translate }}</mat-label>
+        <input matInput type="number" min="0" formControlName="unitPrice" required />
+        @if (form.controls.unitPrice.invalid && form.controls.unitPrice.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'services.fields.taxRate' | translate }}</mat-label>
+        <input matInput type="number" min="0" max="100" formControlName="taxRate" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="service-form__full-width">
+        <mat-label>{{ 'services.fields.description' | translate }}</mat-label>
+        <textarea matInput formControlName="description" rows="2"></textarea>
+      </mat-form-field>
+
+      <div class="service-form__actions">
+        <a mat-button routerLink="/services">{{ 'common.cancel' | translate }}</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ 'common.save' | translate }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

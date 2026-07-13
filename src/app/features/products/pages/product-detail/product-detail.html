@@ -1,0 +1,69 @@
+<div class="product-detail">
+  <header class="product-detail__header">
+    <a mat-icon-button routerLink="/products" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'products.detail' | translate }}</h1>
+    <span class="product-detail__spacer"></span>
+    <a
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/products', product()?.id, 'edit']"
+      *appHasPermission="[Permission.PRODUCT_MANAGE]"
+    >
+      <mat-icon>edit</mat-icon>
+      {{ 'common.edit' | translate }}
+    </a>
+  </header>
+
+  @if (isLoading()) {
+    <div class="product-detail__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (product(); as product) {
+    <mat-card class="product-detail__card">
+      <mat-card-content class="product-detail__grid">
+        <div>
+          <p class="product-detail__label">{{ 'products.fields.name' | translate }}</p>
+          <p class="product-detail__value">{{ product.name }}</p>
+        </div>
+        <div>
+          <p class="product-detail__label">{{ 'products.fields.sku' | translate }}</p>
+          <p class="product-detail__value">{{ product.sku }}</p>
+        </div>
+        <div>
+          <p class="product-detail__label">{{ 'products.fields.category' | translate }}</p>
+          <p class="product-detail__value">{{ product.category }}</p>
+        </div>
+        <div>
+          <p class="product-detail__label">{{ 'products.fields.unitPrice' | translate }}</p>
+          <p class="product-detail__value">{{ product.unitPrice | currencyXof }}</p>
+        </div>
+        <div>
+          <p class="product-detail__label">{{ 'products.fields.taxRate' | translate }}</p>
+          <p class="product-detail__value">{{ product.taxRate }}%</p>
+        </div>
+        <div>
+          <p class="product-detail__label">{{ 'products.fields.stockQuantity' | translate }}</p>
+          <p class="product-detail__value">
+            {{ product.stockQuantity }} ({{ 'products.unit.' + product.unit | translate }})
+          </p>
+        </div>
+        <div>
+          <p class="product-detail__label">{{ 'common.status' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip [class.product-detail__chip--active]="product.status === 'ACTIVE'">
+              {{ (product.status === 'ACTIVE' ? 'common.active' : 'common.inactive') | translate }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        @if (product.description) {
+          <div class="product-detail__full-width">
+            <p class="product-detail__label">{{ 'products.fields.description' | translate }}</p>
+            <p class="product-detail__value">{{ product.description }}</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

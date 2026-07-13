@@ -1,0 +1,78 @@
+<div class="user-detail">
+  <header class="user-detail__header">
+    <a mat-icon-button routerLink="/users" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'users.detail' | translate }}</h1>
+    <span class="user-detail__spacer"></span>
+    <a
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/users', user()?.id, 'edit']"
+      *appHasPermission="[Permission.USER_MANAGE]"
+    >
+      <mat-icon>edit</mat-icon>
+      {{ 'common.edit' | translate }}
+    </a>
+  </header>
+
+  @if (isLoading()) {
+    <div class="user-detail__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (user(); as user) {
+    <mat-card class="user-detail__card">
+      <mat-card-content class="user-detail__identity">
+        <span class="user-detail__avatar">{{ getInitials(user) }}</span>
+        <div>
+          <p class="user-detail__name">{{ getFullName(user) }}</p>
+          <p class="user-detail__email">{{ user.email }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-content class="user-detail__grid">
+        <div>
+          <p class="user-detail__label">{{ 'users.fields.role' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip>{{ 'roles.name.' + user.role | translate }}</mat-chip>
+          </mat-chip-set>
+        </div>
+        <div>
+          <p class="user-detail__label">{{ 'common.status' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip [class.user-detail__chip--active]="user.isActive">
+              {{ (user.isActive ? 'common.active' : 'common.inactive') | translate }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div>
+          <p class="user-detail__label">{{ 'users.fields.lastLoginAt' | translate }}</p>
+          <p class="user-detail__value">
+            {{ user.lastLoginAt ? (user.lastLoginAt | relativeTime) : '—' }}
+          </p>
+        </div>
+        <div>
+          <p class="user-detail__label">{{ 'users.fields.createdAt' | translate }}</p>
+          <p class="user-detail__value">{{ user.createdAt | relativeTime }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ 'users.permissionsGranted' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="user-detail__permissions">
+          @for (permission of grantedPermissions(user); track permission) {
+            <mat-chip-set>
+              <mat-chip>{{ permission }}</mat-chip>
+            </mat-chip-set>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

@@ -1,0 +1,72 @@
+.quote-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__search {
+    max-width: 24rem;
+  }
+
+  &__table-container {
+    background: var(--mat-sys-surface);
+    border-radius: 12px;
+    border: 1px solid var(--mat-sys-outline-variant);
+    overflow: hidden;
+
+    table {
+      width: 100%;
+    }
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+  }
+
+  &__chip--success {
+    background-color: #e6f4ea !important;
+    color: #1e7e34 !important;
+  }
+
+  &__chip--warning {
+    background-color: #fff4e5 !important;
+    color: #b26a00 !important;
+  }
+
+  &__chip--error {
+    background-color: #fdecea !important;
+    color: #c62828 !important;
+  }
+
+  &__chip--primary {
+    background-color: #e3f2fd !important;
+    color: #1565c0 !important;
+  }
+}

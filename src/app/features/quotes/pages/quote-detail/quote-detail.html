@@ -1,0 +1,135 @@
+<div class="quote-detail">
+  <header class="quote-detail__header">
+    <a mat-icon-button routerLink="/quotes" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'quotes.detail' | translate }}</h1>
+    <span class="quote-detail__spacer"></span>
+
+    @if (quote(); as quote) {
+      @if (quote.status === QuoteStatus.DRAFT) {
+        <button mat-stroked-button (click)="send()" *appHasPermission="[Permission.QUOTE_UPDATE]">
+          <mat-icon>send</mat-icon>
+          {{ 'quotes.actions.send' | translate }}
+        </button>
+      }
+      @if (quote.status === QuoteStatus.SENT) {
+        <button mat-stroked-button (click)="accept()" *appHasPermission="[Permission.QUOTE_UPDATE]">
+          <mat-icon>check_circle</mat-icon>
+          {{ 'quotes.actions.accept' | translate }}
+        </button>
+        <button mat-stroked-button (click)="reject()" *appHasPermission="[Permission.QUOTE_UPDATE]">
+          <mat-icon>cancel</mat-icon>
+          {{ 'quotes.actions.reject' | translate }}
+        </button>
+      }
+      @if (quote.status === QuoteStatus.ACCEPTED) {
+        <button
+          mat-stroked-button
+          (click)="convertToInvoice()"
+          *appHasPermission="[Permission.INVOICE_CREATE]"
+        >
+          <mat-icon>sync_alt</mat-icon>
+          {{ 'quotes.actions.convert' | translate }}
+        </button>
+      }
+      <button mat-stroked-button [disabled]="isDownloading()" (click)="downloadPdf()">
+        @if (isDownloading()) {
+          <mat-spinner diameter="18" />
+        } @else {
+          <mat-icon>picture_as_pdf</mat-icon>
+        }
+        {{ 'quotes.actions.downloadPdf' | translate }}
+      </button>
+      <a
+        mat-flat-button
+        color="primary"
+        [routerLink]="['/quotes', quote.id, 'edit']"
+        *appHasPermission="[Permission.QUOTE_UPDATE]"
+      >
+        <mat-icon>edit</mat-icon>
+        {{ 'common.edit' | translate }}
+      </a>
+    }
+  </header>
+
+  @if (isLoading()) {
+    <div class="quote-detail__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (quote(); as quote) {
+    <mat-card class="quote-detail__card">
+      <mat-card-content class="quote-detail__grid">
+        <div>
+          <p class="quote-detail__label">{{ 'quotes.fields.number' | translate }}</p>
+          <p class="quote-detail__value">{{ quote.number }}</p>
+        </div>
+        <div>
+          <p class="quote-detail__label">{{ 'quotes.fields.client' | translate }}</p>
+          <p class="quote-detail__value">{{ quote.clientName }}</p>
+        </div>
+        <div>
+          <p class="quote-detail__label">{{ 'quotes.fields.issueDate' | translate }}</p>
+          <p class="quote-detail__value">{{ formatDate(quote.issueDate) }}</p>
+        </div>
+        <div>
+          <p class="quote-detail__label">{{ 'quotes.fields.validUntil' | translate }}</p>
+          <p class="quote-detail__value">{{ formatDate(quote.validUntil) }}</p>
+        </div>
+        <div>
+          <p class="quote-detail__label">{{ 'common.status' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip [class]="'quote-detail__chip--' + statusAccent[quote.status]">
+              {{ 'quotes.status.' + quote.status | translate }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-content>
+        <table mat-table [dataSource]="quote.lines">
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>{{ 'quotes.fields.description' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.description }}</td>
+          </ng-container>
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>{{ 'quotes.fields.quantity' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.quantity }}</td>
+          </ng-container>
+          <ng-container matColumnDef="unitPrice">
+            <th mat-header-cell *matHeaderCellDef>{{ 'quotes.fields.unitPrice' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.unitPrice | currencyXof }}</td>
+          </ng-container>
+          <ng-container matColumnDef="taxRate">
+            <th mat-header-cell *matHeaderCellDef>{{ 'quotes.fields.taxRate' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.taxRate }}%</td>
+          </ng-container>
+          <ng-container matColumnDef="lineTotal">
+            <th mat-header-cell *matHeaderCellDef>{{ 'quotes.fields.lineTotal' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.lineTotal | currencyXof }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="lineColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: lineColumns"></tr>
+        </table>
+
+        <div class="quote-detail__totals">
+          <div>
+            <span>{{ 'quotes.fields.amountExclTax' | translate }}</span>
+            <strong>{{ quote.amountExclTax | currencyXof }}</strong>
+          </div>
+          <div>
+            <span>{{ 'quotes.fields.taxAmount' | translate }}</span>
+            <strong>{{ quote.taxAmount | currencyXof }}</strong>
+          </div>
+          <div class="quote-detail__totals-grand">
+            <span>{{ 'quotes.fields.totalAmount' | translate }}</span>
+            <strong>{{ quote.totalAmount | currencyXof }}</strong>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

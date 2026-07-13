@@ -1,0 +1,534 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "actions": "Actions",
+    "confirm": "Confirm",
+    "close": "Close",
+    "loading": "Loading...",
+    "noResults": "No results",
+    "yes": "Yes",
+    "no": "No",
+    "active": "Active",
+    "inactive": "Inactive",
+    "back": "Back",
+    "next": "Next",
+    "status": "Status",
+    "date": "Date",
+    "total": "Total",
+    "export": "Export",
+    "exportExcel": "Export to Excel",
+    "exportPdf": "Export to PDF",
+    "downloadError": "Failed to download the document."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "clients": "Clients",
+    "quotes": "Quotes",
+    "invoices": "Invoices",
+    "payments": "Payments",
+    "suppliers": "Suppliers",
+    "products": "Products",
+    "services": "Services",
+    "journal": "Accounting journal",
+    "ledger": "General ledger",
+    "trialBalance": "Trial balance",
+    "cashbook": "Cashbook",
+    "reports": "Reports",
+    "audit": "Audit",
+    "users": "Users",
+    "roles": "Roles",
+    "settings": "Settings",
+    "section": {
+      "general": "General",
+      "sales": "Sales",
+      "purchasingCatalog": "Purchasing & Catalog",
+      "accounting": "Accounting",
+      "oversight": "Oversight",
+      "administration": "Administration"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Access your management workspace",
+      "email": "Email address",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "success": "Signed in successfully. Welcome!",
+      "error": "Invalid credentials. Please try again."
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email to receive a reset link",
+      "submit": "Send reset link",
+      "success": "If an account exists for this email, a reset link has been sent.",
+      "backToLogin": "Back to sign in"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Hello {{name}}, here is an overview of your activity.",
+    "kpi": {
+      "revenue": "Revenue",
+      "invoices": "Invoices issued",
+      "payments": "Payments received",
+      "receivables": "Receivables",
+      "payables": "Payables",
+      "activeClients": "Active clients",
+      "productsSold": "Products sold"
+    },
+    "charts": {
+      "revenueTrend": "Revenue trend",
+      "invoiceStatus": "Invoice breakdown",
+      "topProducts": "Top selling products",
+      "expenses": "Expenses"
+    },
+    "recentActivity": "Recent activity",
+    "notifications": "Notifications"
+  },
+  "clients": {
+    "title": "Clients",
+    "subtitle": "Manage your client portfolio",
+    "new": "New client",
+    "edit": "Edit client",
+    "detail": "Client details",
+    "fields": {
+      "name": "Name / Company",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "taxId": "Tax ID",
+      "status": "Status"
+    },
+    "deleteConfirmTitle": "Delete this client?",
+    "deleteConfirmMessage": "This action cannot be undone. The client will be permanently deleted.",
+    "createdSuccess": "Client created successfully.",
+    "updatedSuccess": "Client updated successfully.",
+    "deletedSuccess": "Client deleted successfully.",
+    "empty": "No clients yet",
+    "emptyMessage": "Start by adding your first client."
+  },
+  "invoices": {
+    "title": "Invoices",
+    "subtitle": "Track and manage your client invoices",
+    "new": "New invoice",
+    "edit": "Edit invoice",
+    "detail": "Invoice details",
+    "fields": {
+      "number": "Invoice #",
+      "client": "Client",
+      "issueDate": "Issue date",
+      "dueDate": "Due date",
+      "amountExclTax": "Amount excl. tax",
+      "taxRate": "Tax rate (%)",
+      "totalAmount": "Total amount",
+      "status": "Status",
+      "lines": "Invoice lines",
+      "description": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "lineTotal": "Line total",
+      "taxAmount": "Tax amount"
+    },
+    "status": {
+      "DRAFT": "Draft",
+      "SENT": "Sent",
+      "PAID": "Paid",
+      "PARTIALLY_PAID": "Partially paid",
+      "OVERDUE": "Overdue",
+      "CANCELLED": "Cancelled"
+    },
+    "actions": {
+      "downloadPdf": "Download PDF"
+    },
+    "deleteConfirmTitle": "Delete this invoice?",
+    "deleteConfirmMessage": "This action cannot be undone. The invoice will be permanently deleted.",
+    "createdSuccess": "Invoice created successfully.",
+    "updatedSuccess": "Invoice updated successfully.",
+    "deletedSuccess": "Invoice deleted successfully.",
+    "empty": "No invoices",
+    "emptyMessage": "Start by creating your first invoice."
+  },
+  "quotes": {
+    "title": "Quotes",
+    "subtitle": "Create and track your client quotes",
+    "new": "New quote",
+    "edit": "Edit quote",
+    "detail": "Quote details",
+    "fields": {
+      "number": "Quote #",
+      "client": "Client",
+      "issueDate": "Issue date",
+      "validUntil": "Valid until",
+      "amountExclTax": "Amount excl. tax",
+      "taxRate": "Tax rate (%)",
+      "totalAmount": "Total amount",
+      "status": "Status",
+      "lines": "Quote lines",
+      "description": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "lineTotal": "Line total",
+      "taxAmount": "Tax amount"
+    },
+    "status": {
+      "DRAFT": "Draft",
+      "SENT": "Sent",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected",
+      "EXPIRED": "Expired",
+      "CONVERTED": "Converted to invoice"
+    },
+    "actions": {
+      "send": "Send to client",
+      "accept": "Mark as accepted",
+      "reject": "Mark as rejected",
+      "convert": "Convert to invoice",
+      "downloadPdf": "Download PDF"
+    },
+    "convertedSuccess": "Quote converted to invoice successfully.",
+    "deleteConfirmTitle": "Delete this quote?",
+    "deleteConfirmMessage": "This action cannot be undone. The quote will be permanently deleted.",
+    "createdSuccess": "Quote created successfully.",
+    "updatedSuccess": "Quote updated successfully.",
+    "deletedSuccess": "Quote deleted successfully.",
+    "empty": "No quotes",
+    "emptyMessage": "Start by creating your first quote."
+  },
+  "payments": {
+    "title": "Payments",
+    "subtitle": "Track payments received on your invoices",
+    "new": "New payment",
+    "detail": "Payment details",
+    "fields": {
+      "reference": "Reference",
+      "invoice": "Invoice",
+      "client": "Client",
+      "amount": "Amount",
+      "method": "Payment method",
+      "status": "Status",
+      "paidAt": "Payment date",
+      "notes": "Notes"
+    },
+    "method": {
+      "CASH": "Cash",
+      "BANK_TRANSFER": "Bank transfer",
+      "MOBILE_MONEY": "Mobile Money",
+      "CHECK": "Check",
+      "CARD": "Card"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "COMPLETED": "Completed",
+      "FAILED": "Failed",
+      "REFUNDED": "Refunded"
+    },
+    "actions": {
+      "refund": "Refund",
+      "downloadReceipt": "Download receipt"
+    },
+    "refundConfirmTitle": "Refund this payment?",
+    "refundConfirmMessage": "The payment will be marked as refunded. This must be reflected manually on the related invoice if needed.",
+    "refundedSuccess": "Payment refunded successfully.",
+    "deleteConfirmTitle": "Delete this payment?",
+    "deleteConfirmMessage": "This action cannot be undone. The payment will be permanently deleted.",
+    "createdSuccess": "Payment recorded successfully.",
+    "deletedSuccess": "Payment deleted successfully.",
+    "empty": "No payments",
+    "emptyMessage": "Start by recording your first payment."
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "subtitle": "Manage your supplier portfolio",
+    "new": "New supplier",
+    "edit": "Edit supplier",
+    "detail": "Supplier details",
+    "fields": {
+      "name": "Name / Company",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "taxId": "Tax ID",
+      "status": "Status",
+      "totalPurchased": "Total purchases"
+    },
+    "deleteConfirmTitle": "Delete this supplier?",
+    "deleteConfirmMessage": "This action cannot be undone. The supplier will be permanently deleted.",
+    "createdSuccess": "Supplier created successfully.",
+    "updatedSuccess": "Supplier updated successfully.",
+    "deletedSuccess": "Supplier deleted successfully.",
+    "empty": "No suppliers yet",
+    "emptyMessage": "Start by adding your first supplier."
+  },
+  "products": {
+    "title": "Products",
+    "subtitle": "Manage your product catalog",
+    "new": "New product",
+    "edit": "Edit product",
+    "detail": "Product details",
+    "fields": {
+      "name": "Name",
+      "sku": "SKU",
+      "description": "Description",
+      "category": "Category",
+      "unitPrice": "Unit price",
+      "taxRate": "Tax rate (%)",
+      "unit": "Unit",
+      "stockQuantity": "Stock quantity",
+      "status": "Status"
+    },
+    "unit": {
+      "PIECE": "Piece",
+      "HOUR": "Hour",
+      "KG": "Kilogram",
+      "LITER": "Liter",
+      "METER": "Meter",
+      "BOX": "Box"
+    },
+    "deleteConfirmTitle": "Delete this product?",
+    "deleteConfirmMessage": "This action cannot be undone. The product will be permanently deleted.",
+    "createdSuccess": "Product created successfully.",
+    "updatedSuccess": "Product updated successfully.",
+    "deletedSuccess": "Product deleted successfully.",
+    "empty": "No products yet",
+    "emptyMessage": "Start by adding your first product."
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Manage your service catalog",
+    "new": "New service",
+    "edit": "Edit service",
+    "detail": "Service details",
+    "fields": {
+      "name": "Name",
+      "code": "Code",
+      "description": "Description",
+      "category": "Category",
+      "unitPrice": "Unit price",
+      "taxRate": "Tax rate (%)",
+      "unit": "Billing unit",
+      "status": "Status"
+    },
+    "unit": {
+      "HOUR": "Hour",
+      "DAY": "Day",
+      "MONTH": "Month",
+      "FLAT_RATE": "Flat rate"
+    },
+    "deleteConfirmTitle": "Delete this service?",
+    "deleteConfirmMessage": "This action cannot be undone. The service will be permanently deleted.",
+    "createdSuccess": "Service created successfully.",
+    "updatedSuccess": "Service updated successfully.",
+    "deletedSuccess": "Service deleted successfully.",
+    "empty": "No services yet",
+    "emptyMessage": "Start by adding your first service."
+  },
+  "accounting": {
+    "startDate": "Start date",
+    "endDate": "End date",
+    "fields": {
+      "reference": "Reference",
+      "account": "Account",
+      "accountCode": "Account code",
+      "accountName": "Account name",
+      "label": "Label",
+      "debit": "Debit",
+      "credit": "Credit",
+      "balance": "Balance",
+      "total": "Total"
+    },
+    "journal": {
+      "title": "Accounting journal",
+      "subtitle": "Chronological list of all journal entries",
+      "empty": "No entries for the selected period"
+    },
+    "ledger": {
+      "title": "General ledger",
+      "subtitle": "Entries and running balance per account",
+      "empty": "No entries for this account"
+    },
+    "trialBalance": {
+      "title": "Trial balance",
+      "subtitle": "Debit/credit totals and balance per account",
+      "empty": "No data available"
+    },
+    "cashbook": {
+      "title": "Cashbook",
+      "subtitle": "Cash and bank movements",
+      "cashIn": "In",
+      "cashOut": "Out",
+      "empty": "No cash movements"
+    }
+  },
+  "roles": {
+    "name": {
+      "ADMIN": "Administrator",
+      "COMPTABLE": "Accountant",
+      "GESTIONNAIRE": "Manager",
+      "CAISSIER": "Cashier",
+      "AUDITEUR": "Auditor",
+      "UTILISATEUR": "User"
+    }
+  },
+  "users": {
+    "title": "Users",
+    "subtitle": "Manage your team's accounts and access",
+    "new": "New user",
+    "edit": "Edit user",
+    "detail": "User details",
+    "permissionsGranted": "Granted permissions",
+    "fields": {
+      "name": "Name",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "isActive": "Account active",
+      "lastLoginAt": "Last login",
+      "createdAt": "Created",
+      "temporaryPassword": "Temporary password"
+    },
+    "actions": {
+      "resetPassword": "Reset password"
+    },
+    "resetPasswordConfirmTitle": "Reset password?",
+    "resetPasswordConfirmMessage": "A new temporary password will be generated and emailed to the user.",
+    "resetPasswordSuccess": "Password reset successfully.",
+    "deleteConfirmTitle": "Delete this user?",
+    "deleteConfirmMessage": "This action cannot be undone. The user will be permanently deleted.",
+    "createdSuccess": "User created successfully.",
+    "updatedSuccess": "User updated successfully.",
+    "deletedSuccess": "User deleted successfully.",
+    "empty": "No users yet",
+    "emptyMessage": "Start by adding your first user."
+  },
+  "rolesPage": {
+    "title": "Roles",
+    "subtitle": "Each role is a fixed set of permissions, enforced by typing — no custom role creation.",
+    "permission": "Permission",
+    "granted": "Granted",
+    "category": {
+      "invoice": "Invoices",
+      "quote": "Quotes",
+      "payment": "Payments",
+      "client": "Clients",
+      "supplier": "Suppliers",
+      "product": "Products",
+      "service": "Services",
+      "accounting": "Accounting",
+      "report": "Reports",
+      "user": "Users",
+      "role": "Roles",
+      "settings": "Settings",
+      "audit": "Audit"
+    }
+  },
+  "settings": {
+    "profile": {
+      "title": "My profile",
+      "subtitle": "Manage your personal information and password",
+      "personalInfo": "Personal information",
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password",
+      "passwordMismatch": "Passwords do not match.",
+      "updatedSuccess": "Profile updated successfully.",
+      "passwordChangedSuccess": "Password changed successfully."
+    },
+    "company": {
+      "title": "Company settings",
+      "subtitle": "General information used on your documents (invoices, quotes)",
+      "fields": {
+        "companyName": "Company name",
+        "address": "Address",
+        "taxId": "Tax ID",
+        "currency": "Currency",
+        "defaultTaxRate": "Default tax rate (%)",
+        "invoicePrefix": "Invoice prefix",
+        "quotePrefix": "Quote prefix"
+      },
+      "updatedSuccess": "Settings updated successfully."
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Exportable sales and financial analyses",
+    "empty": "No data available",
+    "fields": {
+      "client": "Client",
+      "invoiceCount": "Invoice count",
+      "taxAmount": "VAT amount",
+      "count": "Count",
+      "daysOverdue": "Days overdue",
+      "amountDue": "Amount due"
+    },
+    "salesByClient": {
+      "title": "Sales by client"
+    },
+    "agingReceivables": {
+      "title": "Aging receivables",
+      "empty": "No overdue receivables — all invoices are up to date."
+    },
+    "quoteFunnel": {
+      "title": "Quotes by status"
+    }
+  },
+  "audit": {
+    "title": "Audit log",
+    "subtitle": "Read-only history of sensitive actions performed on the platform",
+    "empty": "No entries found",
+    "emptyMessage": "No tracked action matches your search.",
+    "fields": {
+      "timestamp": "Date and time",
+      "userName": "User",
+      "action": "Action",
+      "entity": "Resource",
+      "details": "Details"
+    },
+    "actions": {
+      "CREATE": "Create",
+      "UPDATE": "Update",
+      "DELETE": "Delete",
+      "LOGIN": "Login",
+      "VALIDATE": "Validate",
+      "EXPORT": "Export"
+    }
+  },
+  "validation": {
+    "required": "This field is required.",
+    "email": "Invalid email address.",
+    "minlength": "This field must be at least {{requiredLength}} characters.",
+    "maxlength": "This field must not exceed {{requiredLength}} characters.",
+    "min": "Minimum value is {{min}}.",
+    "max": "Maximum value is {{max}}.",
+    "pattern": "The entered format is invalid."
+  },
+  "errors": {
+    "backToDashboard": "Back to dashboard",
+    "401": {
+      "title": "Not authenticated",
+      "message": "Your session has expired or you are not logged in. Please sign in again."
+    },
+    "403": {
+      "title": "Access denied",
+      "message": "You do not have the required permissions to access this resource."
+    },
+    "404": {
+      "title": "Page not found",
+      "message": "The page you are looking for does not exist or has been moved."
+    },
+    "500": {
+      "title": "Server error",
+      "message": "An internal error occurred. Our team has been notified."
+    }
+  }
+}

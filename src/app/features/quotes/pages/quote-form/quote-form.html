@@ -1,0 +1,125 @@
+<div class="quote-form-page">
+  <header class="quote-form-page__header">
+    <a mat-icon-button routerLink="/quotes" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ (isEditMode() ? 'quotes.edit' : 'quotes.new') | translate }}</h1>
+  </header>
+
+  @if (isLoading()) {
+    <div class="quote-form-page__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else {
+    <form class="quote-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="quote-form__header-fields">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'quotes.fields.client' | translate }}</mat-label>
+          <input
+            matInput
+            [formControl]="clientSearchControl"
+            [matAutocomplete]="clientAuto"
+            required
+          />
+          <mat-autocomplete
+            #clientAuto="matAutocomplete"
+            [displayWith]="displayClient"
+            (optionSelected)="onClientSelected($event.option.value)"
+          >
+            @for (client of clientOptions(); track client.id) {
+              <mat-option [value]="client">{{ client.name }}</mat-option>
+            }
+          </mat-autocomplete>
+          @if (form.controls.clientId.invalid && form.controls.clientId.touched) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'quotes.fields.issueDate' | translate }}</mat-label>
+          <input matInput [matDatepicker]="issuePicker" formControlName="issueDate" required />
+          <mat-datepicker-toggle matSuffix [for]="issuePicker" />
+          <mat-datepicker #issuePicker />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'quotes.fields.validUntil' | translate }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="validUntilPicker"
+            formControlName="validUntil"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="validUntilPicker" />
+          <mat-datepicker #validUntilPicker />
+        </mat-form-field>
+      </div>
+
+      <h2 class="quote-form__section-title">{{ 'quotes.fields.lines' | translate }}</h2>
+
+      <div class="quote-form__lines" formArrayName="lines">
+        @for (line of lines.controls; track $index) {
+          <div class="quote-form__line" [formGroupName]="$index">
+            <mat-form-field appearance="outline" class="quote-form__line-description">
+              <mat-label>{{ 'quotes.fields.description' | translate }}</mat-label>
+              <input matInput formControlName="description" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="quote-form__line-number">
+              <mat-label>{{ 'quotes.fields.quantity' | translate }}</mat-label>
+              <input matInput type="number" min="1" formControlName="quantity" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="quote-form__line-number">
+              <mat-label>{{ 'quotes.fields.amountExclTax' | translate }}</mat-label>
+              <input matInput type="number" min="0" formControlName="unitPrice" required />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="quote-form__line-number">
+              <mat-label>{{ 'quotes.fields.taxRate' | translate }}</mat-label>
+              <input matInput type="number" min="0" max="100" formControlName="taxRate" required />
+            </mat-form-field>
+            <p class="quote-form__line-total">{{ lineTotal($index) | currencyXof }}</p>
+            <button
+              mat-icon-button
+              type="button"
+              (click)="removeLine($index)"
+              [disabled]="lines.length === 1"
+              [attr.aria-label]="'common.delete' | translate"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+
+      <button mat-stroked-button type="button" (click)="addLine()" class="quote-form__add-line">
+        <mat-icon>add</mat-icon>
+        {{ 'quotes.fields.lines' | translate }}
+      </button>
+
+      <div class="quote-form__totals">
+        <div>
+          <span>{{ 'quotes.fields.amountExclTax' | translate }}</span>
+          <strong>{{ totals().amountExclTax | currencyXof }}</strong>
+        </div>
+        <div>
+          <span>{{ 'quotes.fields.taxRate' | translate }}</span>
+          <strong>{{ totals().taxAmount | currencyXof }}</strong>
+        </div>
+        <div class="quote-form__totals-grand">
+          <span>{{ 'quotes.fields.totalAmount' | translate }}</span>
+          <strong>{{ totals().totalAmount | currencyXof }}</strong>
+        </div>
+      </div>
+
+      <div class="quote-form__actions">
+        <a mat-button routerLink="/quotes">{{ 'common.cancel' | translate }}</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ 'common.save' | translate }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

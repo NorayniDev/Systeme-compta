@@ -1,0 +1,74 @@
+<div class="supplier-form-page">
+  <header class="supplier-form-page__header">
+    <a mat-icon-button routerLink="/suppliers" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ (isEditMode() ? 'suppliers.edit' : 'suppliers.new') | translate }}</h1>
+  </header>
+
+  @if (isLoading()) {
+    <div class="supplier-form-page__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else {
+    <form class="supplier-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'suppliers.fields.name' | translate }}</mat-label>
+        <input matInput formControlName="name" required />
+        @if (form.controls.name.invalid && form.controls.name.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'suppliers.fields.email' | translate }}</mat-label>
+        <input matInput type="email" formControlName="email" required />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+          <mat-error>
+            {{
+              (form.controls.email.hasError('required')
+                ? 'validation.required'
+                : 'validation.email'
+              ) | translate
+            }}
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'suppliers.fields.phone' | translate }}</mat-label>
+        <input matInput formControlName="phone" required />
+        @if (form.controls.phone.invalid && form.controls.phone.touched) {
+          <mat-error>{{ 'validation.pattern' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'suppliers.fields.taxId' | translate }}</mat-label>
+        <input matInput formControlName="taxId" required />
+        @if (form.controls.taxId.invalid && form.controls.taxId.touched) {
+          <mat-error>{{ 'validation.pattern' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="supplier-form__full-width">
+        <mat-label>{{ 'suppliers.fields.address' | translate }}</mat-label>
+        <textarea matInput formControlName="address" rows="2" required></textarea>
+        @if (form.controls.address.invalid && form.controls.address.touched) {
+          <mat-error>{{ 'validation.required' | translate }}</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="supplier-form__actions">
+        <a mat-button routerLink="/suppliers">{{ 'common.cancel' | translate }}</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ 'common.save' | translate }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

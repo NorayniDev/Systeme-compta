@@ -1,0 +1,534 @@
+{
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "search": "Rechercher",
+    "actions": "Actions",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "loading": "Chargement...",
+    "noResults": "Aucun résultat",
+    "yes": "Oui",
+    "no": "Non",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "back": "Retour",
+    "next": "Suivant",
+    "status": "Statut",
+    "date": "Date",
+    "total": "Total",
+    "export": "Exporter",
+    "exportExcel": "Exporter en Excel",
+    "exportPdf": "Exporter en PDF",
+    "downloadError": "Échec du téléchargement du document."
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "clients": "Clients",
+    "quotes": "Devis",
+    "invoices": "Factures",
+    "payments": "Paiements",
+    "suppliers": "Fournisseurs",
+    "products": "Produits",
+    "services": "Services",
+    "journal": "Journal comptable",
+    "ledger": "Grand livre",
+    "trialBalance": "Balance",
+    "cashbook": "Journal de caisse",
+    "reports": "Rapports",
+    "audit": "Audit",
+    "users": "Utilisateurs",
+    "roles": "Rôles",
+    "settings": "Paramètres",
+    "section": {
+      "general": "Général",
+      "sales": "Ventes",
+      "purchasingCatalog": "Achats & Catalogue",
+      "accounting": "Comptabilité",
+      "oversight": "Pilotage",
+      "administration": "Administration"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Accédez à votre espace de gestion",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "rememberMe": "Se souvenir de moi",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Se connecter",
+      "success": "Connexion réussie. Bienvenue !",
+      "error": "Identifiants invalides. Veuillez réessayer."
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Saisissez votre e-mail pour recevoir un lien de réinitialisation",
+      "submit": "Envoyer le lien",
+      "success": "Si un compte existe pour cet e-mail, un lien de réinitialisation a été envoyé.",
+      "backToLogin": "Retour à la connexion"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bonjour {{name}}, voici un aperçu de votre activité.",
+    "kpi": {
+      "revenue": "Chiffre d'affaires",
+      "invoices": "Factures émises",
+      "payments": "Paiements reçus",
+      "receivables": "Créances",
+      "payables": "Dettes fournisseurs",
+      "activeClients": "Clients actifs",
+      "productsSold": "Produits vendus"
+    },
+    "charts": {
+      "revenueTrend": "Évolution du chiffre d'affaires",
+      "invoiceStatus": "Répartition des factures",
+      "topProducts": "Produits les plus vendus",
+      "expenses": "Dépenses"
+    },
+    "recentActivity": "Activités récentes",
+    "notifications": "Notifications"
+  },
+  "clients": {
+    "title": "Clients",
+    "subtitle": "Gérez votre portefeuille clients",
+    "new": "Nouveau client",
+    "edit": "Modifier le client",
+    "detail": "Fiche client",
+    "fields": {
+      "name": "Nom / Raison sociale",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "address": "Adresse",
+      "taxId": "Numéro fiscal (NINEA)",
+      "status": "Statut"
+    },
+    "deleteConfirmTitle": "Supprimer ce client ?",
+    "deleteConfirmMessage": "Cette action est irréversible. Le client sera définitivement supprimé.",
+    "createdSuccess": "Client créé avec succès.",
+    "updatedSuccess": "Client mis à jour avec succès.",
+    "deletedSuccess": "Client supprimé avec succès.",
+    "empty": "Aucun client enregistré",
+    "emptyMessage": "Commencez par ajouter votre premier client."
+  },
+  "invoices": {
+    "title": "Factures",
+    "subtitle": "Suivez et gérez vos factures clients",
+    "new": "Nouvelle facture",
+    "edit": "Modifier la facture",
+    "detail": "Détail de la facture",
+    "fields": {
+      "number": "N° Facture",
+      "client": "Client",
+      "issueDate": "Date d'émission",
+      "dueDate": "Date d'échéance",
+      "amountExclTax": "Montant HT",
+      "taxRate": "TVA (%)",
+      "totalAmount": "Montant TTC",
+      "status": "Statut",
+      "lines": "Lignes de facture",
+      "description": "Description",
+      "quantity": "Quantité",
+      "unitPrice": "Prix unitaire",
+      "lineTotal": "Total ligne",
+      "taxAmount": "Montant TVA"
+    },
+    "status": {
+      "DRAFT": "Brouillon",
+      "SENT": "Envoyée",
+      "PAID": "Payée",
+      "PARTIALLY_PAID": "Partiellement payée",
+      "OVERDUE": "En retard",
+      "CANCELLED": "Annulée"
+    },
+    "actions": {
+      "downloadPdf": "Télécharger le PDF"
+    },
+    "deleteConfirmTitle": "Supprimer cette facture ?",
+    "deleteConfirmMessage": "Cette action est irréversible. La facture sera définitivement supprimée.",
+    "createdSuccess": "Facture créée avec succès.",
+    "updatedSuccess": "Facture mise à jour avec succès.",
+    "deletedSuccess": "Facture supprimée avec succès.",
+    "empty": "Aucune facture",
+    "emptyMessage": "Commencez par créer votre première facture."
+  },
+  "quotes": {
+    "title": "Devis",
+    "subtitle": "Créez et suivez vos devis clients",
+    "new": "Nouveau devis",
+    "edit": "Modifier le devis",
+    "detail": "Détail du devis",
+    "fields": {
+      "number": "N° Devis",
+      "client": "Client",
+      "issueDate": "Date d'émission",
+      "validUntil": "Valable jusqu'au",
+      "amountExclTax": "Montant HT",
+      "taxRate": "TVA (%)",
+      "totalAmount": "Montant TTC",
+      "status": "Statut",
+      "lines": "Lignes de devis",
+      "description": "Description",
+      "quantity": "Quantité",
+      "unitPrice": "Prix unitaire",
+      "lineTotal": "Total ligne",
+      "taxAmount": "Montant TVA"
+    },
+    "status": {
+      "DRAFT": "Brouillon",
+      "SENT": "Envoyé",
+      "ACCEPTED": "Accepté",
+      "REJECTED": "Refusé",
+      "EXPIRED": "Expiré",
+      "CONVERTED": "Converti en facture"
+    },
+    "actions": {
+      "send": "Envoyer au client",
+      "accept": "Marquer comme accepté",
+      "reject": "Marquer comme refusé",
+      "convert": "Convertir en facture",
+      "downloadPdf": "Télécharger le PDF"
+    },
+    "convertedSuccess": "Devis converti en facture avec succès.",
+    "deleteConfirmTitle": "Supprimer ce devis ?",
+    "deleteConfirmMessage": "Cette action est irréversible. Le devis sera définitivement supprimé.",
+    "createdSuccess": "Devis créé avec succès.",
+    "updatedSuccess": "Devis mis à jour avec succès.",
+    "deletedSuccess": "Devis supprimé avec succès.",
+    "empty": "Aucun devis",
+    "emptyMessage": "Commencez par créer votre premier devis."
+  },
+  "payments": {
+    "title": "Paiements",
+    "subtitle": "Suivez les encaissements de vos factures",
+    "new": "Nouvel encaissement",
+    "detail": "Détail du paiement",
+    "fields": {
+      "reference": "Référence",
+      "invoice": "Facture",
+      "client": "Client",
+      "amount": "Montant",
+      "method": "Moyen de paiement",
+      "status": "Statut",
+      "paidAt": "Date de paiement",
+      "notes": "Notes"
+    },
+    "method": {
+      "CASH": "Espèces",
+      "BANK_TRANSFER": "Virement bancaire",
+      "MOBILE_MONEY": "Mobile Money",
+      "CHECK": "Chèque",
+      "CARD": "Carte bancaire"
+    },
+    "status": {
+      "PENDING": "En attente",
+      "COMPLETED": "Complété",
+      "FAILED": "Échoué",
+      "REFUNDED": "Remboursé"
+    },
+    "actions": {
+      "refund": "Rembourser",
+      "downloadReceipt": "Télécharger le reçu"
+    },
+    "refundConfirmTitle": "Rembourser ce paiement ?",
+    "refundConfirmMessage": "Le paiement sera marqué comme remboursé. Cette action doit être répercutée manuellement sur la facture associée si nécessaire.",
+    "refundedSuccess": "Paiement remboursé avec succès.",
+    "deleteConfirmTitle": "Supprimer ce paiement ?",
+    "deleteConfirmMessage": "Cette action est irréversible. Le paiement sera définitivement supprimé.",
+    "createdSuccess": "Paiement enregistré avec succès.",
+    "deletedSuccess": "Paiement supprimé avec succès.",
+    "empty": "Aucun paiement",
+    "emptyMessage": "Commencez par enregistrer votre premier encaissement."
+  },
+  "suppliers": {
+    "title": "Fournisseurs",
+    "subtitle": "Gérez votre portefeuille fournisseurs",
+    "new": "Nouveau fournisseur",
+    "edit": "Modifier le fournisseur",
+    "detail": "Fiche fournisseur",
+    "fields": {
+      "name": "Nom / Raison sociale",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "address": "Adresse",
+      "taxId": "Numéro fiscal (NINEA)",
+      "status": "Statut",
+      "totalPurchased": "Total achats"
+    },
+    "deleteConfirmTitle": "Supprimer ce fournisseur ?",
+    "deleteConfirmMessage": "Cette action est irréversible. Le fournisseur sera définitivement supprimé.",
+    "createdSuccess": "Fournisseur créé avec succès.",
+    "updatedSuccess": "Fournisseur mis à jour avec succès.",
+    "deletedSuccess": "Fournisseur supprimé avec succès.",
+    "empty": "Aucun fournisseur enregistré",
+    "emptyMessage": "Commencez par ajouter votre premier fournisseur."
+  },
+  "products": {
+    "title": "Produits",
+    "subtitle": "Gérez votre catalogue de produits",
+    "new": "Nouveau produit",
+    "edit": "Modifier le produit",
+    "detail": "Fiche produit",
+    "fields": {
+      "name": "Nom",
+      "sku": "Référence (SKU)",
+      "description": "Description",
+      "category": "Catégorie",
+      "unitPrice": "Prix unitaire",
+      "taxRate": "TVA (%)",
+      "unit": "Unité",
+      "stockQuantity": "Quantité en stock",
+      "status": "Statut"
+    },
+    "unit": {
+      "PIECE": "Pièce",
+      "HOUR": "Heure",
+      "KG": "Kilogramme",
+      "LITER": "Litre",
+      "METER": "Mètre",
+      "BOX": "Carton"
+    },
+    "deleteConfirmTitle": "Supprimer ce produit ?",
+    "deleteConfirmMessage": "Cette action est irréversible. Le produit sera définitivement supprimé.",
+    "createdSuccess": "Produit créé avec succès.",
+    "updatedSuccess": "Produit mis à jour avec succès.",
+    "deletedSuccess": "Produit supprimé avec succès.",
+    "empty": "Aucun produit enregistré",
+    "emptyMessage": "Commencez par ajouter votre premier produit."
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Gérez votre catalogue de prestations",
+    "new": "Nouvelle prestation",
+    "edit": "Modifier la prestation",
+    "detail": "Fiche prestation",
+    "fields": {
+      "name": "Nom",
+      "code": "Code",
+      "description": "Description",
+      "category": "Catégorie",
+      "unitPrice": "Prix unitaire",
+      "taxRate": "TVA (%)",
+      "unit": "Unité de facturation",
+      "status": "Statut"
+    },
+    "unit": {
+      "HOUR": "Heure",
+      "DAY": "Jour",
+      "MONTH": "Mois",
+      "FLAT_RATE": "Forfait"
+    },
+    "deleteConfirmTitle": "Supprimer cette prestation ?",
+    "deleteConfirmMessage": "Cette action est irréversible. La prestation sera définitivement supprimée.",
+    "createdSuccess": "Prestation créée avec succès.",
+    "updatedSuccess": "Prestation mise à jour avec succès.",
+    "deletedSuccess": "Prestation supprimée avec succès.",
+    "empty": "Aucune prestation enregistrée",
+    "emptyMessage": "Commencez par ajouter votre première prestation."
+  },
+  "accounting": {
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "fields": {
+      "reference": "Référence",
+      "account": "Compte",
+      "accountCode": "Code compte",
+      "accountName": "Libellé compte",
+      "label": "Libellé",
+      "debit": "Débit",
+      "credit": "Crédit",
+      "balance": "Solde",
+      "total": "Total"
+    },
+    "journal": {
+      "title": "Journal comptable",
+      "subtitle": "Liste chronologique de toutes les écritures",
+      "empty": "Aucune écriture sur la période sélectionnée"
+    },
+    "ledger": {
+      "title": "Grand livre",
+      "subtitle": "Écritures et solde progressif par compte",
+      "empty": "Aucune écriture pour ce compte"
+    },
+    "trialBalance": {
+      "title": "Balance générale",
+      "subtitle": "Cumul débit/crédit et solde de chaque compte",
+      "empty": "Aucune donnée disponible"
+    },
+    "cashbook": {
+      "title": "Journal de caisse",
+      "subtitle": "Mouvements de trésorerie (caisse et banque)",
+      "cashIn": "Entrée",
+      "cashOut": "Sortie",
+      "empty": "Aucun mouvement de trésorerie"
+    }
+  },
+  "roles": {
+    "name": {
+      "ADMIN": "Administrateur",
+      "COMPTABLE": "Comptable",
+      "GESTIONNAIRE": "Gestionnaire",
+      "CAISSIER": "Caissier",
+      "AUDITEUR": "Auditeur",
+      "UTILISATEUR": "Utilisateur"
+    }
+  },
+  "users": {
+    "title": "Utilisateurs",
+    "subtitle": "Gérez les comptes et les accès de votre équipe",
+    "new": "Nouvel utilisateur",
+    "edit": "Modifier l'utilisateur",
+    "detail": "Fiche utilisateur",
+    "permissionsGranted": "Permissions accordées",
+    "fields": {
+      "name": "Nom",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "status": "Statut",
+      "isActive": "Compte actif",
+      "lastLoginAt": "Dernière connexion",
+      "createdAt": "Créé",
+      "temporaryPassword": "Mot de passe temporaire"
+    },
+    "actions": {
+      "resetPassword": "Réinitialiser le mot de passe"
+    },
+    "resetPasswordConfirmTitle": "Réinitialiser le mot de passe ?",
+    "resetPasswordConfirmMessage": "Un nouveau mot de passe temporaire sera généré et envoyé à l'utilisateur par e-mail.",
+    "resetPasswordSuccess": "Mot de passe réinitialisé avec succès.",
+    "deleteConfirmTitle": "Supprimer cet utilisateur ?",
+    "deleteConfirmMessage": "Cette action est irréversible. L'utilisateur sera définitivement supprimé.",
+    "createdSuccess": "Utilisateur créé avec succès.",
+    "updatedSuccess": "Utilisateur mis à jour avec succès.",
+    "deletedSuccess": "Utilisateur supprimé avec succès.",
+    "empty": "Aucun utilisateur enregistré",
+    "emptyMessage": "Commencez par ajouter votre premier utilisateur."
+  },
+  "rolesPage": {
+    "title": "Rôles",
+    "subtitle": "Chaque rôle est un ensemble fixe de permissions, garanti par le typage — aucune création de rôle personnalisé.",
+    "permission": "Permission",
+    "granted": "Accordée",
+    "category": {
+      "invoice": "Factures",
+      "quote": "Devis",
+      "payment": "Paiements",
+      "client": "Clients",
+      "supplier": "Fournisseurs",
+      "product": "Produits",
+      "service": "Services",
+      "accounting": "Comptabilité",
+      "report": "Rapports",
+      "user": "Utilisateurs",
+      "role": "Rôles",
+      "settings": "Paramètres",
+      "audit": "Audit"
+    }
+  },
+  "settings": {
+    "profile": {
+      "title": "Mon profil",
+      "subtitle": "Gérez vos informations personnelles et votre mot de passe",
+      "personalInfo": "Informations personnelles",
+      "changePassword": "Changer le mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmNewPassword": "Confirmer le nouveau mot de passe",
+      "passwordMismatch": "Les mots de passe ne correspondent pas.",
+      "updatedSuccess": "Profil mis à jour avec succès.",
+      "passwordChangedSuccess": "Mot de passe changé avec succès."
+    },
+    "company": {
+      "title": "Paramètres de l'entreprise",
+      "subtitle": "Informations générales utilisées sur vos documents (factures, devis)",
+      "fields": {
+        "companyName": "Raison sociale",
+        "address": "Adresse",
+        "taxId": "Numéro fiscal (NINEA)",
+        "currency": "Devise",
+        "defaultTaxRate": "Taux de TVA par défaut (%)",
+        "invoicePrefix": "Préfixe des factures",
+        "quotePrefix": "Préfixe des devis"
+      },
+      "updatedSuccess": "Paramètres mis à jour avec succès."
+    }
+  },
+  "reports": {
+    "title": "Rapports",
+    "subtitle": "Analyses commerciales et financières exportables",
+    "empty": "Aucune donnée disponible",
+    "fields": {
+      "client": "Client",
+      "invoiceCount": "Nb. factures",
+      "taxAmount": "Montant TVA",
+      "count": "Nombre",
+      "daysOverdue": "Jours de retard",
+      "amountDue": "Montant dû"
+    },
+    "salesByClient": {
+      "title": "Ventes par client"
+    },
+    "agingReceivables": {
+      "title": "Créances échues",
+      "empty": "Aucune créance échue — toutes les factures sont à jour."
+    },
+    "quoteFunnel": {
+      "title": "Devis par statut"
+    }
+  },
+  "audit": {
+    "title": "Journal d'audit",
+    "subtitle": "Historique en lecture seule des actions sensibles effectuées sur la plateforme",
+    "empty": "Aucune entrée trouvée",
+    "emptyMessage": "Aucune action tracée ne correspond à votre recherche.",
+    "fields": {
+      "timestamp": "Date et heure",
+      "userName": "Utilisateur",
+      "action": "Action",
+      "entity": "Ressource",
+      "details": "Détails"
+    },
+    "actions": {
+      "CREATE": "Création",
+      "UPDATE": "Modification",
+      "DELETE": "Suppression",
+      "LOGIN": "Connexion",
+      "VALIDATE": "Validation",
+      "EXPORT": "Export"
+    }
+  },
+  "validation": {
+    "required": "Ce champ est requis.",
+    "email": "Adresse e-mail invalide.",
+    "minlength": "Ce champ doit contenir au moins {{requiredLength}} caractères.",
+    "maxlength": "Ce champ ne doit pas dépasser {{requiredLength}} caractères.",
+    "min": "La valeur minimale est {{min}}.",
+    "max": "La valeur maximale est {{max}}.",
+    "pattern": "Le format saisi est invalide."
+  },
+  "errors": {
+    "backToDashboard": "Retour au tableau de bord",
+    "401": {
+      "title": "Non authentifié",
+      "message": "Votre session a expiré ou vous n'êtes pas connecté. Veuillez vous reconnecter."
+    },
+    "403": {
+      "title": "Accès refusé",
+      "message": "Vous n'avez pas les permissions nécessaires pour accéder à cette ressource."
+    },
+    "404": {
+      "title": "Page introuvable",
+      "message": "La page que vous recherchez n'existe pas ou a été déplacée."
+    },
+    "500": {
+      "title": "Erreur serveur",
+      "message": "Une erreur interne est survenue. Nos équipes ont été notifiées."
+    }
+  }
+}

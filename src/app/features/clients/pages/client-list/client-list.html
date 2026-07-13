@@ -1,0 +1,129 @@
+<div class="client-list">
+  <header class="client-list__header">
+    <div>
+      <h1>{{ 'clients.title' | translate }}</h1>
+      <p>{{ 'clients.subtitle' | translate }}</p>
+    </div>
+    <div class="client-list__header-actions">
+      <button mat-stroked-button [matMenuTriggerFor]="exportMenu">
+        <mat-icon>download</mat-icon>
+        {{ 'common.export' | translate }}
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportCsv()">{{ 'common.exportExcel' | translate }}</button>
+        <button mat-menu-item (click)="exportPdf()">{{ 'common.exportPdf' | translate }}</button>
+      </mat-menu>
+      <a
+        mat-flat-button
+        color="primary"
+        routerLink="new"
+        *appHasPermission="[Permission.CLIENT_MANAGE]"
+      >
+        <mat-icon>add</mat-icon>
+        {{ 'clients.new' | translate }}
+      </a>
+    </div>
+  </header>
+
+  <mat-form-field appearance="outline" class="client-list__search">
+    <mat-label>{{ 'common.search' | translate }}</mat-label>
+    <input matInput [formControl]="searchControl" />
+    <mat-icon matPrefix aria-hidden="true">search</mat-icon>
+  </mat-form-field>
+
+  <div class="client-list__table-container">
+    @if (isLoading()) {
+      <div class="client-list__loading">
+        <mat-spinner diameter="36" />
+      </div>
+    } @else if (clients().length === 0) {
+      <app-empty-state
+        icon="groups"
+        [title]="'clients.empty' | translate"
+        [message]="'clients.emptyMessage' | translate"
+      />
+    } @else {
+      <table mat-table [dataSource]="clients()" matSort (matSortChange)="onSortChange($event)">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'clients.fields.name' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let client">{{ client.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>{{ 'clients.fields.email' | translate }}</th>
+          <td mat-cell *matCellDef="let client">{{ client.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>{{ 'clients.fields.phone' | translate }}</th>
+          <td mat-cell *matCellDef="let client">{{ client.phone }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalInvoiced">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'common.total' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let client">{{ client.totalInvoiced | currencyXof }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.status' | translate }}</th>
+          <td mat-cell *matCellDef="let client">
+            <mat-chip-set>
+              <mat-chip [class.client-list__chip--active]="client.status === 'ACTIVE'">
+                {{ statusLabel(client.status) | translate }}
+              </mat-chip>
+            </mat-chip-set>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.actions' | translate }}</th>
+          <td mat-cell *matCellDef="let client">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="rowMenu"
+              [attr.aria-label]="'common.actions' | translate"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #rowMenu="matMenu">
+              <a mat-menu-item [routerLink]="[client.id]">
+                <mat-icon>visibility</mat-icon>
+                <span>{{ 'clients.detail' | translate }}</span>
+              </a>
+              <a
+                mat-menu-item
+                [routerLink]="[client.id, 'edit']"
+                *appHasPermission="[Permission.CLIENT_MANAGE]"
+              >
+                <mat-icon>edit</mat-icon>
+                <span>{{ 'common.edit' | translate }}</span>
+              </a>
+              <button
+                mat-menu-item
+                (click)="confirmDelete(client)"
+                *appHasPermission="[Permission.CLIENT_MANAGE]"
+              >
+                <mat-icon>delete</mat-icon>
+                <span>{{ 'common.delete' | translate }}</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [length]="totalElements()"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageSize]="pageSizeOptions[0]"
+        (page)="onPageChange($event)"
+      />
+    }
+  </div>
+</div>

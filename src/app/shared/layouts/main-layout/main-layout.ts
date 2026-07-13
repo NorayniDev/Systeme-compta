@@ -1,0 +1,94 @@
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { AuthService } from '../../../core/authentication/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
+import { LoadingService } from '../../../core/services/loading.service';
+import { getFullName, getInitials } from '../../../core/models/user.model';
+import { NAV_SECTIONS } from './nav-items';
+import { APP_CONSTANTS, SupportedLang } from '../../../core/constants/app.constant';
+import { STORAGE_KEYS } from '../../../core/constants/storage-keys.constant';
+import { environment } from '../../../../environments/environment';
+
+/**
+ * Layout applicatif principal: barre latérale de navigation filtrée par
+ * rôle, barre supérieure (recherche, thème, langue, notifications, profil)
+ * et zone de contenu routée.
+ */
+@Component({
+  selector: 'app-main-layout',
+  standalone: true,
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatProgressBarModule,
+    MatTooltipModule,
+    TranslatePipe,
+  ],
+  templateUrl: './main-layout.html',
+  styleUrl: './main-layout.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class MainLayout {
+  protected readonly authService = inject(AuthService);
+  protected readonly themeService = inject(ThemeService);
+  protected readonly loadingService = inject(LoadingService);
+  private readonly translateService = inject(TranslateService);
+
+  protected readonly appName = APP_CONSTANTS.APP_SHORT_NAME;
+  protected readonly supportedLangs = APP_CONSTANTS.SUPPORTED_LANGS;
+  protected readonly isDemoMode = environment.useMockApi;
+  protected readonly isSidenavOpened = signal(true);
+  protected readonly unreadNotificationsCount = signal(3);
+
+  protected readonly currentUser = this.authService.currentUser;
+  protected readonly userFullName = computed(() => {
+    const user = this.currentUser();
+    return user ? getFullName(user) : '';
+  });
+  protected readonly userInitials = computed(() => {
+    const user = this.currentUser();
+    return user ? getInitials(user) : '';
+  });
+
+  protected readonly navSections = computed(() =>
+    NAV_SECTIONS.map((section) => ({
+      ...section,
+      items: section.items.filter((item) => !item.roles || this.authService.hasRole(...item.roles)),
+    })).filter((section) => section.items.length > 0),
+  );
+
+  toggleSidenav(): void {
+    this.isSidenavOpened.update((opened) => !opened);
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle();
+  }
+
+  setLang(lang: SupportedLang): void {
+    this.translateService.use(lang);
+    localStorage.setItem(STORAGE_KEYS.LANG, lang);
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
+}

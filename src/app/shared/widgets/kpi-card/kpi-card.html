@@ -1,0 +1,25 @@
+<mat-card class="kpi-card" [class]="'kpi-card--' + accent()">
+  <mat-card-content class="kpi-card__content">
+    <div class="kpi-card__icon">
+      <mat-icon aria-hidden="true">{{ icon() }}</mat-icon>
+    </div>
+    <div class="kpi-card__body">
+      <p class="kpi-card__label">{{ label() }}</p>
+      <p class="kpi-card__value">{{ value() }}</p>
+      @if (trendLabel()) {
+        <p class="kpi-card__trend" [class]="'kpi-card__trend--' + trend()">
+          <mat-icon aria-hidden="true">
+            {{
+              trend() === 'up'
+                ? 'trending_up'
+                : trend() === 'down'
+                  ? 'trending_down'
+                  : 'trending_flat'
+            }}
+          </mat-icon>
+          {{ trendLabel() }}
+        </p>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

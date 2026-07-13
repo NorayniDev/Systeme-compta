@@ -1,0 +1,108 @@
+<div class="invoice-detail">
+  <header class="invoice-detail__header">
+    <a mat-icon-button routerLink="/invoices" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'invoices.detail' | translate }}</h1>
+    <span class="invoice-detail__spacer"></span>
+    <button mat-stroked-button [disabled]="isDownloading()" (click)="downloadPdf()">
+      @if (isDownloading()) {
+        <mat-spinner diameter="18" />
+      } @else {
+        <mat-icon>picture_as_pdf</mat-icon>
+      }
+      {{ 'invoices.actions.downloadPdf' | translate }}
+    </button>
+    <a
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/invoices', invoice()?.id, 'edit']"
+      *appHasPermission="[Permission.INVOICE_UPDATE]"
+    >
+      <mat-icon>edit</mat-icon>
+      {{ 'common.edit' | translate }}
+    </a>
+  </header>
+
+  @if (isLoading()) {
+    <div class="invoice-detail__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (invoice(); as invoice) {
+    <mat-card class="invoice-detail__card">
+      <mat-card-content class="invoice-detail__grid">
+        <div>
+          <p class="invoice-detail__label">{{ 'invoices.fields.number' | translate }}</p>
+          <p class="invoice-detail__value">{{ invoice.number }}</p>
+        </div>
+        <div>
+          <p class="invoice-detail__label">{{ 'invoices.fields.client' | translate }}</p>
+          <p class="invoice-detail__value">{{ invoice.clientName }}</p>
+        </div>
+        <div>
+          <p class="invoice-detail__label">{{ 'invoices.fields.issueDate' | translate }}</p>
+          <p class="invoice-detail__value">{{ formatDate(invoice.issueDate) }}</p>
+        </div>
+        <div>
+          <p class="invoice-detail__label">{{ 'invoices.fields.dueDate' | translate }}</p>
+          <p class="invoice-detail__value">{{ formatDate(invoice.dueDate) }}</p>
+        </div>
+        <div>
+          <p class="invoice-detail__label">{{ 'common.status' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip [class]="'invoice-detail__chip--' + statusAccent[invoice.status]">
+              {{ 'invoices.status.' + invoice.status | translate }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-content>
+        <table mat-table [dataSource]="invoice.lines">
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ 'invoices.fields.description' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let line">{{ line.description }}</td>
+          </ng-container>
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>{{ 'invoices.fields.quantity' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.quantity }}</td>
+          </ng-container>
+          <ng-container matColumnDef="unitPrice">
+            <th mat-header-cell *matHeaderCellDef>{{ 'invoices.fields.unitPrice' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.unitPrice | currencyXof }}</td>
+          </ng-container>
+          <ng-container matColumnDef="taxRate">
+            <th mat-header-cell *matHeaderCellDef>{{ 'invoices.fields.taxRate' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.taxRate }}%</td>
+          </ng-container>
+          <ng-container matColumnDef="lineTotal">
+            <th mat-header-cell *matHeaderCellDef>{{ 'invoices.fields.lineTotal' | translate }}</th>
+            <td mat-cell *matCellDef="let line">{{ line.lineTotal | currencyXof }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="lineColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: lineColumns"></tr>
+        </table>
+
+        <div class="invoice-detail__totals">
+          <div>
+            <span>{{ 'invoices.fields.amountExclTax' | translate }}</span>
+            <strong>{{ invoice.amountExclTax | currencyXof }}</strong>
+          </div>
+          <div>
+            <span>{{ 'invoices.fields.taxAmount' | translate }}</span>
+            <strong>{{ invoice.taxAmount | currencyXof }}</strong>
+          </div>
+          <div class="invoice-detail__totals-grand">
+            <span>{{ 'invoices.fields.totalAmount' | translate }}</span>
+            <strong>{{ invoice.totalAmount | currencyXof }}</strong>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

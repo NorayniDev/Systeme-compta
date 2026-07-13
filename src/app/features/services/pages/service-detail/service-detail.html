@@ -1,0 +1,67 @@
+<div class="service-detail">
+  <header class="service-detail__header">
+    <a mat-icon-button routerLink="/services" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'services.detail' | translate }}</h1>
+    <span class="service-detail__spacer"></span>
+    <a
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/services', serviceItem()?.id, 'edit']"
+      *appHasPermission="[Permission.SERVICE_MANAGE]"
+    >
+      <mat-icon>edit</mat-icon>
+      {{ 'common.edit' | translate }}
+    </a>
+  </header>
+
+  @if (isLoading()) {
+    <div class="service-detail__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (serviceItem(); as item) {
+    <mat-card class="service-detail__card">
+      <mat-card-content class="service-detail__grid">
+        <div>
+          <p class="service-detail__label">{{ 'services.fields.name' | translate }}</p>
+          <p class="service-detail__value">{{ item.name }}</p>
+        </div>
+        <div>
+          <p class="service-detail__label">{{ 'services.fields.code' | translate }}</p>
+          <p class="service-detail__value">{{ item.code }}</p>
+        </div>
+        <div>
+          <p class="service-detail__label">{{ 'services.fields.category' | translate }}</p>
+          <p class="service-detail__value">{{ item.category }}</p>
+        </div>
+        <div>
+          <p class="service-detail__label">{{ 'services.fields.unitPrice' | translate }}</p>
+          <p class="service-detail__value">{{ item.unitPrice | currencyXof }}</p>
+        </div>
+        <div>
+          <p class="service-detail__label">{{ 'services.fields.taxRate' | translate }}</p>
+          <p class="service-detail__value">{{ item.taxRate }}%</p>
+        </div>
+        <div>
+          <p class="service-detail__label">{{ 'services.fields.unit' | translate }}</p>
+          <p class="service-detail__value">{{ 'services.unit.' + item.unit | translate }}</p>
+        </div>
+        <div>
+          <p class="service-detail__label">{{ 'common.status' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip [class.service-detail__chip--active]="item.status === 'ACTIVE'">
+              {{ (item.status === 'ACTIVE' ? 'common.active' : 'common.inactive') | translate }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        @if (item.description) {
+          <div class="service-detail__full-width">
+            <p class="service-detail__label">{{ 'services.fields.description' | translate }}</p>
+            <p class="service-detail__value">{{ item.description }}</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

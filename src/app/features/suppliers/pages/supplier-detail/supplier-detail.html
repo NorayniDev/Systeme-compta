@@ -1,0 +1,61 @@
+<div class="supplier-detail">
+  <header class="supplier-detail__header">
+    <a mat-icon-button routerLink="/suppliers" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'suppliers.detail' | translate }}</h1>
+    <span class="supplier-detail__spacer"></span>
+    <a
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/suppliers', supplier()?.id, 'edit']"
+      *appHasPermission="[Permission.SUPPLIER_MANAGE]"
+    >
+      <mat-icon>edit</mat-icon>
+      {{ 'common.edit' | translate }}
+    </a>
+  </header>
+
+  @if (isLoading()) {
+    <div class="supplier-detail__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (supplier(); as supplier) {
+    <mat-card class="supplier-detail__card">
+      <mat-card-content class="supplier-detail__grid">
+        <div>
+          <p class="supplier-detail__label">{{ 'suppliers.fields.name' | translate }}</p>
+          <p class="supplier-detail__value">{{ supplier.name }}</p>
+        </div>
+        <div>
+          <p class="supplier-detail__label">{{ 'suppliers.fields.email' | translate }}</p>
+          <p class="supplier-detail__value">{{ supplier.email }}</p>
+        </div>
+        <div>
+          <p class="supplier-detail__label">{{ 'suppliers.fields.phone' | translate }}</p>
+          <p class="supplier-detail__value">{{ supplier.phone }}</p>
+        </div>
+        <div>
+          <p class="supplier-detail__label">{{ 'suppliers.fields.taxId' | translate }}</p>
+          <p class="supplier-detail__value">{{ supplier.taxId }}</p>
+        </div>
+        <div>
+          <p class="supplier-detail__label">{{ 'common.status' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip [class.supplier-detail__chip--active]="supplier.status === 'ACTIVE'">
+              {{ (supplier.status === 'ACTIVE' ? 'common.active' : 'common.inactive') | translate }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div>
+          <p class="supplier-detail__label">{{ 'suppliers.fields.totalPurchased' | translate }}</p>
+          <p class="supplier-detail__value">{{ supplier.totalPurchased | currencyXof }}</p>
+        </div>
+        <div class="supplier-detail__full-width">
+          <p class="supplier-detail__label">{{ 'suppliers.fields.address' | translate }}</p>
+          <p class="supplier-detail__value">{{ supplier.address }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

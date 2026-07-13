@@ -1,0 +1,149 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Facture</title>
+    <style th:replace="~{pdf/fragments :: styles}"></style>
+  </head>
+  <body>
+    <div class="doc-header">
+      <div class="doc-header__brand">
+        <div class="brand-row">
+          <span class="brand-row__mark">
+            <span class="brand-mark" th:text="${#strings.substring(company.companyName, 0, 1)}"
+              >A</span
+            >
+          </span>
+          <span class="brand-row__name">
+            <div class="company-name" th:text="${company.companyName}">Nom de l'entreprise</div>
+          </span>
+        </div>
+        <div class="company-meta">
+          <div th:text="${company.address}">Adresse</div>
+          <div th:text="'NINEA : ' + ${company.taxId}">NINEA</div>
+        </div>
+      </div>
+      <div class="doc-header__meta">
+        <div class="doc-title">FACTURE</div>
+        <div class="doc-meta-line"><strong th:text="${invoice.number}">FAC-2026-0000</strong></div>
+        <div class="doc-meta-line">
+          Emise le
+          <span
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatDate(invoice.issueDate)}"
+            >1 janvier 2026</span
+          >
+        </div>
+        <div class="doc-meta-line">
+          Echeance le
+          <span
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatDate(invoice.dueDate)}"
+            >1 janvier 2026</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="accent-rule"></div>
+
+    <div class="party-block">
+      <div class="party-block__client">
+        <div class="eyebrow">Facture a</div>
+        <div class="client-name" th:text="${invoice.clientName}">Nom du client</div>
+        <div class="client-meta" th:if="${client != null}">
+          <div th:if="${client.address}" th:text="${client.address}">Adresse client</div>
+          <div th:if="${client.phone}" th:text="${client.phone}">Telephone</div>
+          <div th:if="${client.email}" th:text="${client.email}">Email</div>
+          <div th:if="${client.taxId}" th:text="'NINEA : ' + ${client.taxId}">NINEA client</div>
+        </div>
+      </div>
+      <div class="party-block__status">
+        <div class="eyebrow">Statut</div>
+        <span
+          class="status-badge"
+          th:classappend="'status-' + ${invoice.status}"
+          th:text="${T(com.facturationpme.pdf.util.PdfLabels).invoiceStatus(invoice.status)}"
+          >Statut</span
+        >
+      </div>
+    </div>
+
+    <table class="lines">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="num">Quantite</th>
+          <th class="num">Prix unitaire</th>
+          <th class="num">TVA</th>
+          <th class="num">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="line : ${invoice.lines}">
+          <td th:text="${line.description}">Description</td>
+          <td
+            class="num"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(line.quantity, null)}"
+          >
+            1,00
+          </td>
+          <td
+            class="num"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(line.unitPrice, company.currency)}"
+          >
+            0
+          </td>
+          <td class="num" th:text="${#numbers.formatDecimal(line.taxRate, 1, 0)} + '%'">18%</td>
+          <td
+            class="num"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(line.lineTotal, company.currency)}"
+          >
+            0
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div class="totals__spacer"></div>
+      <div class="totals__figures">
+        <div class="totals-row">
+          <div class="totals-row__label">Montant HT</div>
+          <div
+            class="totals-row__value"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(invoice.amountExclTax, company.currency)}"
+          >
+            0
+          </div>
+        </div>
+        <div class="totals-row">
+          <div class="totals-row__label">TVA</div>
+          <div
+            class="totals-row__value"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(invoice.taxAmount, company.currency)}"
+          >
+            0
+          </div>
+        </div>
+        <div class="totals-row totals-row--grand">
+          <div class="totals-row__label">Total TTC</div>
+          <div
+            class="totals-row__value"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(invoice.totalAmount, company.currency)}"
+          >
+            0
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes-block" th:if="${invoice.notes != null and !#strings.isEmpty(invoice.notes)}">
+      <div th:text="${invoice.notes}">Notes</div>
+    </div>
+
+    <div class="doc-footer">
+      Document genere automatiquement par
+      <span th:text="${company.companyName}">FacturationPME</span> - facture
+      <span th:text="${invoice.number}"></span>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<mat-sidenav-container class="layout">
+  <mat-sidenav
+    class="layout__sidenav"
+    mode="side"
+    [opened]="isSidenavOpened()"
+    [fixedInViewport]="true"
+  >
+    <div class="layout__brand">
+      <mat-icon aria-hidden="true">account_balance</mat-icon>
+      <span>{{ appName }}</span>
+    </div>
+
+    <nav class="layout__nav">
+      @for (section of navSections(); track section.titleKey) {
+        <p class="layout__nav-section-title">{{ section.titleKey | translate }}</p>
+        <mat-nav-list>
+          @for (item of section.items; track item.route) {
+            <a mat-list-item [routerLink]="item.route" routerLinkActive="layout__nav-item--active">
+              <mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon>
+              <span matListItemTitle>{{ item.labelKey | translate }}</span>
+            </a>
+          }
+        </mat-nav-list>
+      }
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="layout__content">
+    <mat-toolbar class="layout__toolbar">
+      <button mat-icon-button (click)="toggleSidenav()" aria-label="Ouvrir/fermer le menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      @if (isDemoMode) {
+        <span
+          class="layout__demo-badge"
+          matTooltip="Données factices — aucun backend réel connecté"
+        >
+          <mat-icon aria-hidden="true">science</mat-icon>
+          Mode démo
+        </span>
+      }
+
+      <span class="layout__spacer"></span>
+
+      <button
+        mat-icon-button
+        (click)="toggleTheme()"
+        [matTooltip]="
+          themeService.mode() === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'
+        "
+      >
+        <mat-icon>{{ themeService.mode() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        matTooltip="Notifications"
+        [matBadge]="unreadNotificationsCount()"
+        matBadgeColor="warn"
+        [matBadgeHidden]="unreadNotificationsCount() === 0"
+      >
+        <mat-icon>notifications</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="langMenu"
+        matTooltip="Changer de langue"
+        aria-label="Changer de langue"
+      >
+        <mat-icon>translate</mat-icon>
+      </button>
+      <mat-menu #langMenu="matMenu">
+        @for (lang of supportedLangs; track lang) {
+          <button mat-menu-item (click)="setLang(lang)">
+            {{ lang === 'fr' ? 'Français' : 'English' }}
+          </button>
+        }
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="userMenu" class="layout__user-trigger">
+        <span class="layout__avatar">{{ userInitials() }}</span>
+        <span class="layout__username">{{ userFullName() }}</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <a mat-menu-item routerLink="/settings/profile">
+          <mat-icon>person</mat-icon>
+          <span>Mon profil</span>
+        </a>
+        <a mat-menu-item routerLink="/settings">
+          <mat-icon>settings</mat-icon>
+          <span>Paramètres</span>
+        </a>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Déconnexion</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    @if (loadingService.isLoading()) {
+      <mat-progress-bar mode="indeterminate" class="layout__progress" />
+    }
+
+    <main class="layout__main">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

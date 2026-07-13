@@ -1,0 +1,95 @@
+<div class="journal">
+  <header class="journal__header">
+    <div>
+      <h1>{{ 'accounting.journal.title' | translate }}</h1>
+      <p>{{ 'accounting.journal.subtitle' | translate }}</p>
+    </div>
+    <div class="journal__header-actions">
+      <button mat-stroked-button [matMenuTriggerFor]="exportMenu">
+        <mat-icon>download</mat-icon>
+        {{ 'common.export' | translate }}
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportCsv()">{{ 'common.exportExcel' | translate }}</button>
+        <button mat-menu-item (click)="exportPdf()">{{ 'common.exportPdf' | translate }}</button>
+      </mat-menu>
+    </div>
+  </header>
+
+  <form class="journal__filters" [formGroup]="periodForm">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'accounting.startDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
+      <mat-datepicker-toggle matSuffix [for]="startPicker" />
+      <mat-datepicker #startPicker />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'accounting.endDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+      <mat-datepicker-toggle matSuffix [for]="endPicker" />
+      <mat-datepicker #endPicker />
+    </mat-form-field>
+  </form>
+
+  <div class="journal__table-container">
+    @if (isLoading()) {
+      <div class="journal__loading">
+        <mat-spinner diameter="36" />
+      </div>
+    } @else if (entries().length === 0) {
+      <app-empty-state icon="menu_book" [title]="'accounting.journal.empty' | translate" />
+    } @else {
+      <table mat-table [dataSource]="entries()">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.date' | translate }}</th>
+          <td mat-cell *matCellDef="let entry">{{ formatDate(entry.date) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="reference">
+          <th mat-header-cell *matHeaderCellDef>{{ 'accounting.fields.reference' | translate }}</th>
+          <td mat-cell *matCellDef="let entry">{{ entry.reference }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="accountCode">
+          <th mat-header-cell *matHeaderCellDef>{{ 'accounting.fields.account' | translate }}</th>
+          <td mat-cell *matCellDef="let entry">
+            {{ entry.accountCode }} — {{ entry.accountName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="label">
+          <th mat-header-cell *matHeaderCellDef>{{ 'accounting.fields.label' | translate }}</th>
+          <td mat-cell *matCellDef="let entry">{{ entry.label }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="debit">
+          <th mat-header-cell *matHeaderCellDef class="journal__amount-col">
+            {{ 'accounting.fields.debit' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let entry" class="journal__amount-col">
+            {{ entry.debit > 0 ? (entry.debit | currencyXof) : '—' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="credit">
+          <th mat-header-cell *matHeaderCellDef class="journal__amount-col">
+            {{ 'accounting.fields.credit' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let entry" class="journal__amount-col">
+            {{ entry.credit > 0 ? (entry.credit | currencyXof) : '—' }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [length]="totalElements()"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageSize]="pageSizeOptions[0]"
+        (page)="onPageChange($event)"
+      />
+    }
+  </div>
+</div>

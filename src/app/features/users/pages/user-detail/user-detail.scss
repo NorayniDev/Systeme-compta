@@ -1,0 +1,87 @@
+.user-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 48rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 0;
+  }
+
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  &__email {
+    margin: 0.15rem 0 0;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__value {
+    margin: 0.15rem 0 0;
+    font-weight: 500;
+  }
+
+  &__permissions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__chip--active {
+    background-color: #e6f4ea !important;
+    color: #1e7e34 !important;
+  }
+}

@@ -1,0 +1,121 @@
+<div class="profile">
+  <header class="profile__header">
+    <h1>{{ 'settings.profile.title' | translate }}</h1>
+    <p>{{ 'settings.profile.subtitle' | translate }}</p>
+  </header>
+
+  @if (authService.currentUser(); as user) {
+    <mat-card class="profile__identity-card">
+      <mat-card-content class="profile__identity">
+        <span class="profile__avatar">{{ getInitials(user) }}</span>
+        <div>
+          <p class="profile__name">{{ getFullName(user) }}</p>
+          <p class="profile__email">{{ user.email }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'settings.profile.personalInfo' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="profile__form" [formGroup]="profileForm" (ngSubmit)="saveProfile()" novalidate>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'users.fields.firstName' | translate }}</mat-label>
+          <input matInput formControlName="firstName" required />
+          @if (profileForm.controls.firstName.invalid && profileForm.controls.firstName.touched) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'users.fields.lastName' | translate }}</mat-label>
+          <input matInput formControlName="lastName" required />
+          @if (profileForm.controls.lastName.invalid && profileForm.controls.lastName.touched) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="profile__full-width">
+          <mat-label>{{ 'users.fields.email' | translate }}</mat-label>
+          <input matInput type="email" formControlName="email" required />
+          @if (profileForm.controls.email.invalid && profileForm.controls.email.touched) {
+            <mat-error>
+              {{
+                (profileForm.controls.email.hasError('required')
+                  ? 'validation.required'
+                  : 'validation.email'
+                ) | translate
+              }}
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <div class="profile__actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="isSavingProfile()">
+            @if (isSavingProfile()) {
+              <mat-spinner diameter="20" />
+            } @else {
+              {{ 'common.save' | translate }}
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'settings.profile.changePassword' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form
+        class="profile__form"
+        [formGroup]="passwordForm"
+        (ngSubmit)="changePassword()"
+        novalidate
+      >
+        <mat-form-field appearance="outline" class="profile__full-width">
+          <mat-label>{{ 'settings.profile.currentPassword' | translate }}</mat-label>
+          <input matInput type="password" formControlName="currentPassword" required />
+          @if (
+            passwordForm.controls.currentPassword.invalid &&
+            passwordForm.controls.currentPassword.touched
+          ) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'settings.profile.newPassword' | translate }}</mat-label>
+          <input matInput type="password" formControlName="newPassword" required />
+          @if (
+            passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.touched
+          ) {
+            <mat-error>{{ 'validation.minlength' | translate: { requiredLength: 8 } }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'settings.profile.confirmNewPassword' | translate }}</mat-label>
+          <input matInput type="password" formControlName="confirmNewPassword" required />
+          @if (passwordForm.controls.confirmNewPassword.hasError('passwordMismatch')) {
+            <mat-error>{{ 'settings.profile.passwordMismatch' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="profile__actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="isChangingPassword()">
+            @if (isChangingPassword()) {
+              <mat-spinner diameter="20" />
+            } @else {
+              {{ 'settings.profile.changePassword' | translate }}
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

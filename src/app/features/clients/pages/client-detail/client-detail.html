@@ -1,0 +1,61 @@
+<div class="client-detail">
+  <header class="client-detail__header">
+    <a mat-icon-button routerLink="/clients" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'clients.detail' | translate }}</h1>
+    <span class="client-detail__spacer"></span>
+    <a
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/clients', client()?.id, 'edit']"
+      *appHasPermission="[Permission.CLIENT_MANAGE]"
+    >
+      <mat-icon>edit</mat-icon>
+      {{ 'common.edit' | translate }}
+    </a>
+  </header>
+
+  @if (isLoading()) {
+    <div class="client-detail__loading">
+      <mat-spinner diameter="36" />
+    </div>
+  } @else if (client(); as client) {
+    <mat-card class="client-detail__card">
+      <mat-card-content class="client-detail__grid">
+        <div>
+          <p class="client-detail__label">{{ 'clients.fields.name' | translate }}</p>
+          <p class="client-detail__value">{{ client.name }}</p>
+        </div>
+        <div>
+          <p class="client-detail__label">{{ 'clients.fields.email' | translate }}</p>
+          <p class="client-detail__value">{{ client.email }}</p>
+        </div>
+        <div>
+          <p class="client-detail__label">{{ 'clients.fields.phone' | translate }}</p>
+          <p class="client-detail__value">{{ client.phone }}</p>
+        </div>
+        <div>
+          <p class="client-detail__label">{{ 'clients.fields.taxId' | translate }}</p>
+          <p class="client-detail__value">{{ client.taxId }}</p>
+        </div>
+        <div>
+          <p class="client-detail__label">{{ 'common.status' | translate }}</p>
+          <mat-chip-set>
+            <mat-chip [class.client-detail__chip--active]="client.status === 'ACTIVE'">
+              {{ (client.status === 'ACTIVE' ? 'common.active' : 'common.inactive') | translate }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+        <div>
+          <p class="client-detail__label">{{ 'common.total' | translate }}</p>
+          <p class="client-detail__value">{{ client.totalInvoiced | currencyXof }}</p>
+        </div>
+        <div class="client-detail__full-width">
+          <p class="client-detail__label">{{ 'clients.fields.address' | translate }}</p>
+          <p class="client-detail__value">{{ client.address }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

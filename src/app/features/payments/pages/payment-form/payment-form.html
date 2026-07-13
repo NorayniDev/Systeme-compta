@@ -1,0 +1,79 @@
+<div class="payment-form-page">
+  <header class="payment-form-page__header">
+    <a mat-icon-button routerLink="/payments" [attr.aria-label]="'common.back' | translate">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ 'payments.new' | translate }}</h1>
+  </header>
+
+  <form class="payment-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <mat-form-field appearance="outline" class="payment-form__full-width">
+      <mat-label>{{ 'payments.fields.invoice' | translate }}</mat-label>
+      <input
+        matInput
+        [formControl]="invoiceSearchControl"
+        [matAutocomplete]="invoiceAuto"
+        required
+      />
+      <mat-autocomplete
+        #invoiceAuto="matAutocomplete"
+        [displayWith]="displayInvoice"
+        (optionSelected)="onInvoiceSelected($event.option.value)"
+      >
+        @for (invoice of invoiceOptions(); track invoice.id) {
+          <mat-option [value]="invoice">{{ invoice.number }} — {{ invoice.clientName }}</mat-option>
+        }
+      </mat-autocomplete>
+      @if (form.controls.invoiceId.invalid && form.controls.invoiceId.touched) {
+        <mat-error>{{ 'validation.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    @if (selectedInvoice(); as invoice) {
+      <p class="payment-form__invoice-summary">
+        {{ 'invoices.fields.totalAmount' | translate }}:
+        <strong>{{ invoice.totalAmount | currencyXof }}</strong>
+      </p>
+    }
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'payments.fields.amount' | translate }}</mat-label>
+      <input matInput type="number" min="1" formControlName="amount" required />
+      @if (form.controls.amount.invalid && form.controls.amount.touched) {
+        <mat-error>{{ 'validation.required' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'payments.fields.method' | translate }}</mat-label>
+      <mat-select formControlName="method" required>
+        @for (method of paymentMethods; track method) {
+          <mat-option [value]="method">{{ 'payments.method.' + method | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'payments.fields.paidAt' | translate }}</mat-label>
+      <input matInput [matDatepicker]="paidAtPicker" formControlName="paidAt" required />
+      <mat-datepicker-toggle matSuffix [for]="paidAtPicker" />
+      <mat-datepicker #paidAtPicker />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="payment-form__full-width">
+      <mat-label>{{ 'payments.fields.notes' | translate }}</mat-label>
+      <textarea matInput formControlName="notes" rows="2"></textarea>
+    </mat-form-field>
+
+    <div class="payment-form__actions">
+      <a mat-button routerLink="/payments">{{ 'common.cancel' | translate }}</a>
+      <button mat-flat-button color="primary" type="submit" [disabled]="isSubmitting()">
+        @if (isSubmitting()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          {{ 'common.save' | translate }}
+        }
+      </button>
+    </div>
+  </form>
+</div>

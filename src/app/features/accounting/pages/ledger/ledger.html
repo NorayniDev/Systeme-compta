@@ -1,0 +1,72 @@
+<div class="ledger">
+  <header class="ledger__header">
+    <h1>{{ 'accounting.ledger.title' | translate }}</h1>
+    <p>{{ 'accounting.ledger.subtitle' | translate }}</p>
+  </header>
+
+  <mat-form-field appearance="outline" class="ledger__account-select">
+    <mat-label>{{ 'accounting.fields.account' | translate }}</mat-label>
+    <mat-select [formControl]="accountControl">
+      @for (account of accounts(); track account.code) {
+        <mat-option [value]="account.code">{{ account.code }} — {{ account.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <div class="ledger__table-container">
+    @if (isLoading()) {
+      <div class="ledger__loading">
+        <mat-spinner diameter="36" />
+      </div>
+    } @else if (ledgerRows().length === 0) {
+      <app-empty-state icon="auto_stories" [title]="'accounting.ledger.empty' | translate" />
+    } @else {
+      <table mat-table [dataSource]="ledgerRows()">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.date' | translate }}</th>
+          <td mat-cell *matCellDef="let row">{{ formatDate(row.date) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="reference">
+          <th mat-header-cell *matHeaderCellDef>{{ 'accounting.fields.reference' | translate }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.reference }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="label">
+          <th mat-header-cell *matHeaderCellDef>{{ 'accounting.fields.label' | translate }}</th>
+          <td mat-cell *matCellDef="let row">{{ row.label }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="debit">
+          <th mat-header-cell *matHeaderCellDef class="ledger__amount-col">
+            {{ 'accounting.fields.debit' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="ledger__amount-col">
+            {{ row.debit > 0 ? (row.debit | currencyXof) : '—' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="credit">
+          <th mat-header-cell *matHeaderCellDef class="ledger__amount-col">
+            {{ 'accounting.fields.credit' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="ledger__amount-col">
+            {{ row.credit > 0 ? (row.credit | currencyXof) : '—' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="runningBalance">
+          <th mat-header-cell *matHeaderCellDef class="ledger__amount-col">
+            {{ 'accounting.fields.balance' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row" class="ledger__amount-col">
+            <strong>{{ row.runningBalance | currencyXof }}</strong>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    }
+  </div>
+</div>

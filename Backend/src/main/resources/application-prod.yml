@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    root: INFO
+    com.facturationpme: INFO
+  pattern:
+    console: '{"timestamp":"%d{ISO8601}","level":"%p","thread":"%t","logger":"%logger","message":"%m"}%n'
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false

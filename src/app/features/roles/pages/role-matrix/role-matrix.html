@@ -1,0 +1,49 @@
+<div class="role-matrix">
+  <header class="role-matrix__header">
+    <h1>{{ 'rolesPage.title' | translate }}</h1>
+    <p>{{ 'rolesPage.subtitle' | translate }}</p>
+  </header>
+
+  <div class="role-matrix__table-container">
+    <table class="role-matrix__table">
+      <thead>
+        <tr>
+          <th class="role-matrix__permission-col">{{ 'rolesPage.permission' | translate }}</th>
+          @for (role of roles; track role) {
+            <th class="role-matrix__role-col" [matTooltip]="'roles.name.' + role | translate">
+              {{ 'roles.name.' + role | translate }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of categories; track category) {
+          <tr class="role-matrix__category-row">
+            <td [attr.colspan]="roles.length + 1">
+              {{ 'rolesPage.category.' + category | translate }}
+            </td>
+          </tr>
+          @for (row of rowsForCategory(category); track row.permission) {
+            <tr>
+              <td class="role-matrix__permission-col">{{ row.permission }}</td>
+              @for (role of roles; track role) {
+                <td class="role-matrix__role-col">
+                  @if (row.grantedByRole[role]) {
+                    <mat-icon
+                      class="role-matrix__granted"
+                      aria-hidden="false"
+                      [attr.aria-label]="'rolesPage.granted' | translate"
+                      >check_circle</mat-icon
+                    >
+                  } @else {
+                    <mat-icon class="role-matrix__denied" aria-hidden="true">remove</mat-icon>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Devis</title>
+    <style th:replace="~{pdf/fragments :: styles}"></style>
+  </head>
+  <body>
+    <div class="doc-header">
+      <div class="doc-header__brand">
+        <div class="brand-row">
+          <span class="brand-row__mark">
+            <span class="brand-mark" th:text="${#strings.substring(company.companyName, 0, 1)}"
+              >A</span
+            >
+          </span>
+          <span class="brand-row__name">
+            <div class="company-name" th:text="${company.companyName}">Nom de l'entreprise</div>
+          </span>
+        </div>
+        <div class="company-meta">
+          <div th:text="${company.address}">Adresse</div>
+          <div th:text="'NINEA : ' + ${company.taxId}">NINEA</div>
+        </div>
+      </div>
+      <div class="doc-header__meta">
+        <div class="doc-title">DEVIS</div>
+        <div class="doc-meta-line"><strong th:text="${quote.number}">DEV-2026-0000</strong></div>
+        <div class="doc-meta-line">
+          Emis le
+          <span
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatDate(quote.issueDate)}"
+            >1 janvier 2026</span
+          >
+        </div>
+        <div class="doc-meta-line">
+          Valable jusqu'au
+          <span
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatDate(quote.validUntil)}"
+            >1 janvier 2026</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="accent-rule"></div>
+
+    <div class="party-block">
+      <div class="party-block__client">
+        <div class="eyebrow">Adresse a</div>
+        <div class="client-name" th:text="${quote.clientName}">Nom du client</div>
+        <div class="client-meta" th:if="${client != null}">
+          <div th:if="${client.address}" th:text="${client.address}">Adresse client</div>
+          <div th:if="${client.phone}" th:text="${client.phone}">Telephone</div>
+          <div th:if="${client.email}" th:text="${client.email}">Email</div>
+          <div th:if="${client.taxId}" th:text="'NINEA : ' + ${client.taxId}">NINEA client</div>
+        </div>
+      </div>
+      <div class="party-block__status">
+        <div class="eyebrow">Statut</div>
+        <span
+          class="status-badge"
+          th:classappend="'status-' + ${quote.status}"
+          th:text="${T(com.facturationpme.pdf.util.PdfLabels).quoteStatus(quote.status)}"
+          >Statut</span
+        >
+      </div>
+    </div>
+
+    <table class="lines">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="num">Quantite</th>
+          <th class="num">Prix unitaire</th>
+          <th class="num">TVA</th>
+          <th class="num">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="line : ${quote.lines}">
+          <td th:text="${line.description}">Description</td>
+          <td
+            class="num"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(line.quantity, null)}"
+          >
+            1,00
+          </td>
+          <td
+            class="num"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(line.unitPrice, company.currency)}"
+          >
+            0
+          </td>
+          <td class="num" th:text="${#numbers.formatDecimal(line.taxRate, 1, 0)} + '%'">18%</td>
+          <td
+            class="num"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(line.lineTotal, company.currency)}"
+          >
+            0
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div class="totals__spacer"></div>
+      <div class="totals__figures">
+        <div class="totals-row">
+          <div class="totals-row__label">Montant HT</div>
+          <div
+            class="totals-row__value"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(quote.amountExclTax, company.currency)}"
+          >
+            0
+          </div>
+        </div>
+        <div class="totals-row">
+          <div class="totals-row__label">TVA</div>
+          <div
+            class="totals-row__value"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(quote.taxAmount, company.currency)}"
+          >
+            0
+          </div>
+        </div>
+        <div class="totals-row totals-row--grand">
+          <div class="totals-row__label">Total TTC</div>
+          <div
+            class="totals-row__value"
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(quote.totalAmount, company.currency)}"
+          >
+            0
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes-block" th:if="${quote.notes != null and !#strings.isEmpty(quote.notes)}">
+      <div th:text="${quote.notes}">Notes</div>
+    </div>
+
+    <div class="notes-block">
+      <div>
+        Ce devis est valable jusqu'au
+        <strong
+          th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatDate(quote.validUntil)}"
+          >1 janvier 2026</strong
+        >. Passe ce delai, une nouvelle offre pourra etre necessaire.
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      Document genere automatiquement par
+      <span th:text="${company.companyName}">FacturationPME</span> - devis
+      <span th:text="${quote.number}"></span>
+    </div>
+  </body>
+</html>

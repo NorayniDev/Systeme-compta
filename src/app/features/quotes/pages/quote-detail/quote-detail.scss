@@ -1,0 +1,87 @@
+.quote-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 56rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 0;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__value {
+    margin: 0.15rem 0 0;
+    font-weight: 500;
+  }
+
+  &__totals {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 16rem;
+    margin: 1rem 0 0 auto;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+  }
+
+  &__totals-grand {
+    border-top: 1px solid var(--mat-sys-outline-variant);
+    padding-top: 0.4rem;
+    font-size: 1.1rem;
+  }
+
+  &__chip--success {
+    background-color: #e6f4ea !important;
+    color: #1e7e34 !important;
+  }
+
+  &__chip--warning {
+    background-color: #fff4e5 !important;
+    color: #b26a00 !important;
+  }
+
+  &__chip--error {
+    background-color: #fdecea !important;
+    color: #c62828 !important;
+  }
+
+  &__chip--primary {
+    background-color: #e3f2fd !important;
+    color: #1565c0 !important;
+  }
+}

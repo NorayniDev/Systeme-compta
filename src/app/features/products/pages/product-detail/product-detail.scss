@@ -1,0 +1,54 @@
+.product-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 48rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 0;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  &__full-width {
+    grid-column: 1 / -1;
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__value {
+    margin: 0.15rem 0 0;
+    font-weight: 500;
+  }
+
+  &__chip--active {
+    background-color: #e6f4ea !important;
+    color: #1e7e34 !important;
+  }
+}

@@ -1,0 +1,183 @@
+<div class="reports">
+  <header class="reports__header">
+    <h1>{{ 'reports.title' | translate }}</h1>
+    <p>{{ 'reports.subtitle' | translate }}</p>
+  </header>
+
+  <mat-tab-group>
+    <mat-tab [label]="'reports.salesByClient.title' | translate">
+      <div class="reports__tab-content">
+        <div class="reports__tab-actions" *appHasPermission="[Permission.REPORT_EXPORT]">
+          <button mat-stroked-button [matMenuTriggerFor]="salesExportMenu">
+            <mat-icon>download</mat-icon>
+            {{ 'common.export' | translate }}
+          </button>
+          <mat-menu #salesExportMenu="matMenu">
+            <button mat-menu-item (click)="exportSalesCsv()">
+              {{ 'common.exportExcel' | translate }}
+            </button>
+            <button mat-menu-item (click)="exportPdf()">
+              {{ 'common.exportPdf' | translate }}
+            </button>
+          </mat-menu>
+        </div>
+
+        @if (isLoadingSales()) {
+          <div class="reports__loading"><mat-spinner diameter="36" /></div>
+        } @else if (salesByClient().length === 0) {
+          <app-empty-state icon="bar_chart" [title]="'reports.empty' | translate" />
+        } @else {
+          <table mat-table [dataSource]="salesByClient()">
+            <ng-container matColumnDef="clientName">
+              <th mat-header-cell *matHeaderCellDef>{{ 'reports.fields.client' | translate }}</th>
+              <td mat-cell *matCellDef="let line">{{ line.clientName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="invoiceCount">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ 'reports.fields.invoiceCount' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line">{{ line.invoiceCount }}</td>
+            </ng-container>
+            <ng-container matColumnDef="amountExclTax">
+              <th mat-header-cell *matHeaderCellDef class="reports__amount-col">
+                {{ 'invoices.fields.amountExclTax' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line" class="reports__amount-col">
+                {{ line.amountExclTax | currencyXof }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="taxAmount">
+              <th mat-header-cell *matHeaderCellDef class="reports__amount-col">
+                {{ 'reports.fields.taxAmount' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line" class="reports__amount-col">
+                {{ line.taxAmount | currencyXof }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="totalAmount">
+              <th mat-header-cell *matHeaderCellDef class="reports__amount-col">
+                {{ 'invoices.fields.totalAmount' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line" class="reports__amount-col">
+                <strong>{{ line.totalAmount | currencyXof }}</strong>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="salesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: salesColumns"></tr>
+          </table>
+        }
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="'reports.agingReceivables.title' | translate">
+      <div class="reports__tab-content">
+        <div class="reports__tab-actions" *appHasPermission="[Permission.REPORT_EXPORT]">
+          <button mat-stroked-button [matMenuTriggerFor]="agingExportMenu">
+            <mat-icon>download</mat-icon>
+            {{ 'common.export' | translate }}
+          </button>
+          <mat-menu #agingExportMenu="matMenu">
+            <button mat-menu-item (click)="exportAgingCsv()">
+              {{ 'common.exportExcel' | translate }}
+            </button>
+            <button mat-menu-item (click)="exportPdf()">
+              {{ 'common.exportPdf' | translate }}
+            </button>
+          </mat-menu>
+        </div>
+
+        @if (isLoadingAging()) {
+          <div class="reports__loading"><mat-spinner diameter="36" /></div>
+        } @else if (agingReceivables().length === 0) {
+          <app-empty-state
+            icon="hourglass_top"
+            [title]="'reports.agingReceivables.empty' | translate"
+          />
+        } @else {
+          <table mat-table [dataSource]="agingReceivables()">
+            <ng-container matColumnDef="invoiceNumber">
+              <th mat-header-cell *matHeaderCellDef>{{ 'invoices.fields.number' | translate }}</th>
+              <td mat-cell *matCellDef="let line">{{ line.invoiceNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="clientName">
+              <th mat-header-cell *matHeaderCellDef>{{ 'reports.fields.client' | translate }}</th>
+              <td mat-cell *matCellDef="let line">{{ line.clientName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="dueDate">
+              <th mat-header-cell *matHeaderCellDef>{{ 'invoices.fields.dueDate' | translate }}</th>
+              <td mat-cell *matCellDef="let line">{{ formatDate(line.dueDate) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="daysOverdue">
+              <th mat-header-cell *matHeaderCellDef class="reports__amount-col">
+                {{ 'reports.fields.daysOverdue' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line" class="reports__amount-col reports__overdue">
+                {{ line.daysOverdue }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="amountDue">
+              <th mat-header-cell *matHeaderCellDef class="reports__amount-col">
+                {{ 'reports.fields.amountDue' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line" class="reports__amount-col">
+                <strong>{{ line.amountDue | currencyXof }}</strong>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="agingColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: agingColumns"></tr>
+          </table>
+        }
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="'reports.quoteFunnel.title' | translate">
+      <div class="reports__tab-content">
+        <div class="reports__tab-actions" *appHasPermission="[Permission.REPORT_EXPORT]">
+          <button mat-stroked-button [matMenuTriggerFor]="funnelExportMenu">
+            <mat-icon>download</mat-icon>
+            {{ 'common.export' | translate }}
+          </button>
+          <mat-menu #funnelExportMenu="matMenu">
+            <button mat-menu-item (click)="exportFunnelCsv()">
+              {{ 'common.exportExcel' | translate }}
+            </button>
+            <button mat-menu-item (click)="exportPdf()">
+              {{ 'common.exportPdf' | translate }}
+            </button>
+          </mat-menu>
+        </div>
+
+        @if (isLoadingFunnel()) {
+          <div class="reports__loading"><mat-spinner diameter="36" /></div>
+        } @else if (quoteFunnel().length === 0) {
+          <app-empty-state icon="request_quote" [title]="'reports.empty' | translate" />
+        } @else {
+          <table mat-table [dataSource]="quoteFunnel()">
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>{{ 'common.status' | translate }}</th>
+              <td mat-cell *matCellDef="let line">
+                {{ statusTranslationKey(line.status) | translate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="count">
+              <th mat-header-cell *matHeaderCellDef class="reports__amount-col">
+                {{ 'reports.fields.count' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line" class="reports__amount-col">{{ line.count }}</td>
+            </ng-container>
+            <ng-container matColumnDef="totalAmount">
+              <th mat-header-cell *matHeaderCellDef class="reports__amount-col">
+                {{ 'invoices.fields.totalAmount' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let line" class="reports__amount-col">
+                <strong>{{ line.totalAmount | currencyXof }}</strong>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="funnelColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: funnelColumns"></tr>
+          </table>
+        }
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

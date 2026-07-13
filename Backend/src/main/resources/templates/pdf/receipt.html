@@ -1,0 +1,113 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Recu de paiement</title>
+    <style th:replace="~{pdf/fragments :: styles}"></style>
+  </head>
+  <body>
+    <div class="doc-header">
+      <div class="doc-header__brand">
+        <div class="brand-row">
+          <span class="brand-row__mark">
+            <span class="brand-mark" th:text="${#strings.substring(company.companyName, 0, 1)}"
+              >A</span
+            >
+          </span>
+          <span class="brand-row__name">
+            <div class="company-name" th:text="${company.companyName}">Nom de l'entreprise</div>
+          </span>
+        </div>
+        <div class="company-meta">
+          <div th:text="${company.address}">Adresse</div>
+          <div th:text="'NINEA : ' + ${company.taxId}">NINEA</div>
+        </div>
+      </div>
+      <div class="doc-header__meta">
+        <div class="doc-title">RECU</div>
+        <div class="doc-meta-line">
+          <strong th:text="${payment.reference}">PAY-2026-0000</strong>
+        </div>
+        <div class="doc-meta-line">
+          Le
+          <span
+            th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatDateTime(payment.paidAt)}"
+            >1 janvier 2026</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="accent-rule"></div>
+
+    <div class="party-block">
+      <div class="party-block__client">
+        <div class="eyebrow">Recu de la part de</div>
+        <div class="client-name" th:text="${payment.clientName}">Nom du client</div>
+        <div class="client-meta" th:if="${client != null}">
+          <div th:if="${client.address}" th:text="${client.address}">Adresse client</div>
+          <div th:if="${client.email}" th:text="${client.email}">Email</div>
+        </div>
+      </div>
+      <div class="party-block__status">
+        <div class="eyebrow">Statut</div>
+        <span
+          class="status-badge"
+          th:classappend="'status-' + ${payment.status}"
+          th:text="${T(com.facturationpme.pdf.util.PdfLabels).paymentStatus(payment.status)}"
+          >Statut</span
+        >
+      </div>
+    </div>
+
+    <div class="receipt-amount">
+      <div class="receipt-amount__label">Montant recu</div>
+      <div
+        class="receipt-amount__value"
+        th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(payment.amount, company.currency)}"
+      >
+        0
+      </div>
+    </div>
+
+    <div class="receipt-details">
+      <div class="receipt-details-row">
+        <div class="receipt-details-row__label">Facture concernee</div>
+        <div class="receipt-details-row__value" th:text="${payment.invoiceNumber}">
+          FAC-2026-0000
+        </div>
+      </div>
+      <div class="receipt-details-row" th:if="${invoice != null}">
+        <div class="receipt-details-row__label">Montant total de la facture</div>
+        <div
+          class="receipt-details-row__value"
+          th:text="${T(com.facturationpme.pdf.util.PdfFormatUtils).formatAmount(invoice.totalAmount, company.currency)}"
+        >
+          0
+        </div>
+      </div>
+      <div class="receipt-details-row">
+        <div class="receipt-details-row__label">Moyen de paiement</div>
+        <div
+          class="receipt-details-row__value"
+          th:text="${T(com.facturationpme.pdf.util.PdfLabels).paymentMethod(payment.method)}"
+        >
+          Especes
+        </div>
+      </div>
+      <div
+        class="receipt-details-row"
+        th:if="${payment.notes != null and !#strings.isEmpty(payment.notes)}"
+      >
+        <div class="receipt-details-row__label">Notes</div>
+        <div class="receipt-details-row__value" th:text="${payment.notes}">Notes</div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      Recu officiel genere automatiquement par
+      <span th:text="${company.companyName}">FacturationPME</span> - reference
+      <span th:text="${payment.reference}"></span>
+    </div>
+  </body>
+</html>
