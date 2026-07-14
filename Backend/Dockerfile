@@ -1,5 +1,5 @@
 # --- Stage 1 : build --------------------------------------------------------
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM maven:3.9-eclipse-temurin-25 AS build
 WORKDIR /app
 
 COPY pom.xml checkstyle.xml ./
@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn -q -B -DskipTests package
 
 # --- Stage 2 : runtime -------------------------------------------------------
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 
 RUN addgroup -S spring && adduser -S spring -G spring

@@ -114,6 +114,70 @@
   }
 }
 
+// Le panneau de mat-menu est projete dans l'overlay CDK (rattache a <body>),
+// hors de l'arbre DOM de .layout - ces regles doivent donc rester au niveau
+// racine de la feuille de style (Angular scope quand meme l'attribut
+// _ngcontent sur ces elements, ou qu'ils finissent dans le DOM).
+.layout__notifications-menu {
+  max-width: 22rem;
+
+  // mat-menu-item impose une hauteur fixe (48px) inadaptee a un contenu sur
+  // plusieurs lignes (titre + message + horodatage).
+  .mat-mdc-menu-item {
+    height: auto;
+    min-height: 48px;
+  }
+}
+
+.layout__notifications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+}
+
+.layout__notifications-loading {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.layout__notifications-empty {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.layout__notification {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.35rem 0;
+  white-space: normal;
+  line-height: 1.3;
+}
+
+.layout__notification-title {
+  font-weight: 600;
+}
+
+.layout__notification-message {
+  font-size: 0.825rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.layout__notification-time {
+  font-size: 0.75rem;
+  color: var(--mat-sys-outline);
+}
+
+.layout__notification--unread {
+  background-color: var(--mat-sys-secondary-container);
+}
+
 @media (max-width: 960px) {
   .layout__sidenav {
     width: 240px;

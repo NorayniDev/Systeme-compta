@@ -503,6 +503,16 @@
       "EXPORT": "Export"
     }
   },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications",
+    "markAllAsRead": "Mark all as read",
+    "types": {
+      "QUOTE_ACCEPTED": "Quote accepted",
+      "PAYMENT_RECEIVED": "Payment received",
+      "INVOICE_OVERDUE": "Invoice overdue"
+    }
+  },
   "validation": {
     "required": "This field is required.",
     "email": "Invalid email address.",

@@ -4,7 +4,7 @@ Backend Spring Boot du Système Intelligent de Facturation et de Comptabilité p
 
 ## Stack
 
-Java 21 · Spring Boot 3.3 · Spring Security 6 (JWT access + refresh token opaque révocable) · Spring Data JPA · PostgreSQL · Flyway · MapStruct · springdoc-openapi (Swagger UI) · JUnit 5 / Mockito / Testcontainers / ArchUnit · Checkstyle · Spotless (google-java-format) · JaCoCo.
+Java 25 · Spring Boot 3.3 · Spring Security 6 (JWT access + refresh token opaque révocable) · Spring Data JPA · PostgreSQL · Flyway · MapStruct · springdoc-openapi (Swagger UI) · JUnit 5 / Mockito / Testcontainers / ArchUnit · Checkstyle · Spotless (google-java-format) · JaCoCo.
 
 ## Démarrage rapide (Docker, recommandé)
 
@@ -31,10 +31,10 @@ Swagger UI : http://localhost:8080/api/v1/swagger-ui.html (profil `dev` uniqueme
 
 ## Développement local sans Docker pour le build
 
-Java 21 et Maven ne sont pas requis en local si Docker est disponible : le wrapper (`./mvnw`) télécharge Maven au premier appel, mais nécessite un JDK 21 sur le PATH. En son absence, utiliser l'image Maven officielle :
+Java 25 et Maven ne sont pas requis en local si Docker est disponible : le wrapper (`./mvnw`) télécharge Maven au premier appel, mais nécessite un JDK 25 sur le PATH. En son absence, utiliser l'image Maven officielle :
 
 ```bash
-docker run --rm -v "$(pwd):/app" -w /app maven:3.9-eclipse-temurin-21 mvn -B verify
+docker run --rm -v "$(pwd):/app" -w /app maven:3.9-eclipse-temurin-25 mvn -B verify
 ```
 
 ## Tests
@@ -47,7 +47,7 @@ docker run --rm -v "$(pwd):/app" -w /app maven:3.9-eclipse-temurin-21 mvn -B ver
 docker run --rm \
   -v "$(pwd):/app" -v "$(pwd)/../.m2:/root/.m2" \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -w /app maven:3.9-eclipse-temurin-21 mvn -B verify
+  -w /app maven:3.9-eclipse-temurin-25 mvn -B verify
 ```
 
 Sur Docker Desktop pour Windows, le socket Unix n'est pas toujours exposé côté hôte (accès uniquement via named pipe) : dans ce cas, valider le même scénario manuellement via `docker compose up` + `curl` (voir plus haut) plutôt que via le test automatisé, qui reste correct et s'exécutera normalement en CI (GitHub Actions, GitLab CI, etc. exposent le socket Docker nativement).

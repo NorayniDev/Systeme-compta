@@ -31,6 +31,7 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { mockApiInterceptor } from './core/mocks/mock-api.interceptor';
 import { GlobalErrorHandler } from './core/error-handler/global-error-handler';
 import { APP_CONSTANTS } from './core/constants/app.constant';
+import { ThemeService } from './core/services/theme.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -77,6 +78,12 @@ export const appConfig: ApplicationConfig = {
         faCircleCheck,
         faTriangleExclamation,
       );
+
+      // Injecter ThemeService ici (plutôt qu'attendre MainLayout) applique
+      // la préférence sombre/claire sauvegardée dès le démarrage, avant le
+      // premier rendu (ex: page de connexion), et évite un flash de thème
+      // incorrect.
+      inject(ThemeService);
     }),
   ],
 };
