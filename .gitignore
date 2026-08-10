@@ -43,6 +43,8 @@ __screenshots__/
 .env.*
 !.env.example
 
+.claude/
+
 # System files
 .DS_Store
 Thumbs.db
