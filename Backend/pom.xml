@@ -18,9 +18,9 @@
   <description>Backend Spring Boot du Systeme Intelligent de Facturation et de Comptabilite pour les PME</description>
 
   <properties>
-    <java.version>25</java.version>
+    <java.version>21</java.version>
     <mapstruct.version>1.6.2</mapstruct.version>
-    <lombok.version>1.18.34</lombok.version>
+    <lombok.version>1.18.38</lombok.version>
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     <jjwt.version>0.12.6</jjwt.version>
     <springdoc.version>2.6.0</springdoc.version>
